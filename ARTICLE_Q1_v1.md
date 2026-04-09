@@ -10,7 +10,7 @@ Corresponding author: [avcio20@itu.edu.tr](mailto:avcio20@itu.edu.tr)
 
 ## Abstract
 
-High-wind turbine shutdown events — commonly termed "hard cutoffs" — pose an increasing operational challenge as wind power penetration in electricity systems grows. When wind speeds exceed design cut-out thresholds (typically 23–25 m/s), automatic turbine shutdowns can remove hundreds of megawatts of generation within a single hour, with direct consequences for grid balancing and market operations. Despite the operational importance of these events, no systematic, data-driven characterization of hard cutoffs exists for any major wind power fleet using market-transparency production data. This study introduces the Hard Cutoff Observatory for Turkish Wind Farms with Meteorological Context and Warning (HCOT-MW), an integrated four-layer framework that combines (1) EPİAŞ Transparency Platform hourly generation data from approximately 190 licensed wind plants, (2) Turkish State Meteorological Service (MGM) surface observations, (3) ERA5 reanalysis fields, and (4) Weather Research and Forecasting (WRF) model simulations in a two-way nested 9 km / 3 km configuration. Applying a threshold-based detection algorithm — requiring >50 MW pre-event production, <10 MW post-event production, and >80% drop within one hour — to a seven-month dataset (October 2024–April 2025), we identify 78 hard cutoff events across 30 wind farms, with cumulative losses of 4,931 MW, equivalent to an estimated 15.8 million TL (≈458 thousand USD) in revenue and balancing costs. March 2025 was the most active month (26 events; 1,856 MW lost), with 16 March 2025 recording 15 simultaneous shutdowns across nine farms with combined losses of 794 MW. Synoptic classification of the associated weather patterns identifies cold frontal systems (46% of events) and Mediterranean cyclones (27%) as the dominant triggers. A spatial vulnerability index reveals KIYIKÖY RES (Thrace) as the most exposed plant (18 events; 943 MW total loss; Very High Composite Vulnerability Index). WRF 3 km simulations for the peak storm period are validated against MGM observations, yielding RMSE values of 1.87–3.08 m/s with positive biases interpretable as the contrast between exposed wind farm terrain and sheltered station environments. An XGBoost-based early warning classifier trained on per-plant hourly generation and ERA5 predictors achieves ROC-AUC = 0.859, demonstrating the practical predictability of cutoff events from meteorological indicators available 6–24 h in advance. The HCOT-MW framework is designed to be scalable to any fleet with public generation data, and the full analysis pipeline is made publicly available to support reproducibility and operational adoption.
+High-wind turbine shutdown events — commonly termed "hard cutoffs" — pose an increasing operational challenge as wind power penetration in electricity systems grows. When wind speeds exceed design cut-out thresholds (typically 23–25 m/s), automatic turbine shutdowns can remove hundreds of megawatts of generation within a single hour, with direct consequences for grid balancing and market operations. Despite the operational importance of these events, no systematic, data-driven characterization of hard cutoffs exists for any major wind power fleet using market-transparency production data. This study introduces the Hard Cutoff Observatory for Turkish Wind Farms with Meteorological Context and Warning (HCOT-MW), an integrated three-layer framework that combines (1) EPİAŞ Transparency Platform hourly generation data from approximately 190 licensed wind plants, (2) ERA5 reanalysis fields for synoptic attribution and early warning features, and (3) Weather Research and Forecasting (WRF) model simulations in a two-way nested 9 km / 3 km configuration for high-resolution meteorological context. Applying a threshold-based detection algorithm — requiring >50 MW pre-event production, <10 MW post-event production, and >80% drop within one hour — to a seven-month dataset (October 2024–April 2025), we identify 78 hard cutoff events across 30 wind farms, with cumulative losses of 4,931 MW, equivalent to an estimated 15.8 million TL (≈458 thousand USD) in revenue and balancing costs. March 2025 was the most active month (26 events; 1,856 MW lost), with 16 March 2025 recording 15 simultaneous shutdowns across nine farms with combined losses of 794 MW. Synoptic classification of the associated weather patterns identifies cold frontal systems (46% of events) and Mediterranean cyclones (27%) as the dominant triggers. A spatial vulnerability index reveals KIYIKÖY RES (Thrace) as the most exposed plant (18 events; 943 MW total loss; Very High Composite Vulnerability Index). WRF 9/3 km two-domain simulations for the 14–18 March 2025 period confirm the intense southwesterly flow corridor across Thrace and the Marmara region responsible for the fleet-wide shutdown, with simulated 100 m wind speeds exceeding 25 m/s over the ridge-top wind farm sites on 16 March. An XGBoost-based early warning classifier trained on per-plant hourly generation and ERA5 predictors achieves ROC-AUC = 0.859, demonstrating the practical predictability of cutoff events from meteorological indicators available 6–24 h in advance. The HCOT-MW framework is designed to be scalable to any fleet with public generation data, and the full analysis pipeline is made publicly available to support reproducibility and operational adoption.
 
 **Keywords:** wind power; hard cutoff events; turbine shutdown; extreme wind; EPİAŞ; WRF mesoscale modeling; early warning; vulnerability index; Turkey
 
@@ -51,7 +51,7 @@ This study addresses the identified gaps through four specific objectives:
 
 This paper makes the following original contributions to the wind energy and power systems literature:
 
-- **Methodological:** The HCOT-MW framework integrates four data streams (EPİAŞ production data, MGM surface observations, ERA5 reanalysis, WRF mesoscale modeling) in a reproducible pipeline for fleet-scale cutoff analysis. The production-data-based detection algorithm operates without wind measurement infrastructure and is transferable to any fleet with hourly generation data.
+- **Methodological:** The HCOT-MW framework integrates three data streams (EPİAŞ production data, ERA5 reanalysis, WRF mesoscale modeling) in a reproducible pipeline for fleet-scale cutoff analysis. The production-data-based detection algorithm operates without wind measurement infrastructure and is transferable to any fleet with hourly generation data.
 - **Empirical:** The first systematic, event-level characterization of hard cutoffs across an entire national wind fleet (~190 plants, 78 events, 4,931 MW cumulative loss in 7 months). Identification of dominant synoptic patterns (cold fronts, Mediterranean cyclones) and spatial vulnerability clusters.
 - **Economic:** Quantification of the monetary cost of hard cutoffs in the Turkish power market context (PTF market prices, YEKDEM tariff loss, TEIAS balancing premium), a dimension absent from all prior Turkish wind energy studies.
 - **Operational:** An XGBoost early warning classifier achieving ROC-AUC = 0.859 on per-plant hourly data from the Çanakkale regional fleet, providing a prototype operational early warning tool.
@@ -92,7 +92,7 @@ The EPİAŞ Transparency Platform, operational since 2016 with progressively exp
 | No spatial vulnerability framework for Turkey        | CVI index across 31 wind farms                     |
 | No economic cost quantification                      | PTF + YEKDEM + balancing: 15.8 M TL / 458 k USD    |
 | No early warning model for cutoff events             | XGBoost ROC-AUC = 0.859; TFT architecture designed |
-| No WRF validation for extreme events in Turkey's NW  | 38-hour simulation, 7 stations validated           |
+| No high-resolution WRF simulation for NW Turkey extreme events | 4-day two-domain (9/3 km) simulation of March 2025 storm |
 
 
 ---
@@ -115,45 +115,17 @@ The WRF simulation uses two nested domains: d01 (9 km; 201 × 181 cells) coverin
 
 Hourly generation data for all licensed YEKDEM wind plants are retrieved from the EPİAŞ Transparency Platform via the `/v1/renewables/data/licensed-realtime-generation` REST API, authenticated using a Ticket Granting Ticket (TGT). The primary dataset covers October 2024–April 2025 (7 months), comprising approximately 190 plants and ~5,100 hourly records per plant. A supplementary dataset for the Çanakkale-Balıkesir-Tekirdağ region (14 plants, 55,722 hourly records) extends coverage to August 2025–February 2026 (6 months), enabling per-plant model training. Variables are: plant identifier (UEVCB code), date, hour, and generation (MWh).
 
-QC checks confirm zero missing values in the primary cutoff event dataset and 100% temporal coverage in the Çanakkale regional dataset (Table 2).
+QC checks confirm zero missing values in the primary cutoff event dataset and 100% temporal coverage in the Çanakkale regional dataset.
 
-### 3.3 MGM Surface Meteorological Observations
-
-Hourly surface meteorological observations were obtained from the Turkish State Meteorological Service (MGM) for the 15–18 March 2025 storm period from five synoptic stations selected based on proximity to affected wind farms (Table 1). Variables include wind direction (°) and speed (m/s), air temperature (°C), station pressure (hPa), relative humidity (%), and hourly precipitation (mm). After removal of metadata rows, the dataset contains 475 hourly records across all stations and variables, with a maximum missing value rate of 20.2% (pressure at Bolu Dağı).
-
-**Table 1.** MGM observation stations and matched wind farms.
-
-
-| Station No. | Station Name        | Province   | Matched Wind Farm  | Hours Available | Distance to Farm (km) |
-| ----------- | ------------------- | ---------- | ------------------ | --------------- | --------------------- |
-| 17052       | Kırklareli          | Kırklareli | EVRENCİK RES       | 91              | ~20                   |
-| 17069       | Sakarya (Adapazarı) | Sakarya    | ZONGULDAK RES      | 96              | ~25                   |
-| 17112       | Çanakkale           | Çanakkale  | GÜLPINAR RES       | 96              | ~40                   |
-| 17636       | Florya              | Istanbul   | TAŞPINAR RES       | 96              | ~10–15                |
-| 17637       | Bolu Dağı           | Bolu       | Reference (inland) | 96              | N/A                   |
-
-
-**Table 2.** Summary statistics of MGM station observations (15–18 March 2025).
-
-
-| Station            | Wind Mean (m/s) | Wind Max (m/s) | Temp Mean (°C) | Pressure Mean (hPa) | Humidity (%) | Precip Total (mm) |
-| ------------------ | --------------- | -------------- | -------------- | ------------------- | ------------ | ----------------- |
-| Kırklareli (17052) | 2.57            | 5.9            | 12.3           | 986.5               | 62.5         | 23.2              |
-| Sakarya (17069)    | 1.91            | 4.5            | 17.0           | 1010.4              | 58.4         | 4.2               |
-| Çanakkale (17112)  | 3.97            | 9.0            | 13.9           | 1013.3              | 68.4         | 0.2               |
-| Florya (17636)     | 1.40            | 4.3            | 14.4           | 1009.4              | 69.3         | 6.8               |
-| Bolu Dağı (17637)  | 2.18            | 5.4            | 12.7           | —                   | 59.4         | 15.0              |
-
-
-### 3.4 ERA5 Reanalysis
+### 3.3 ERA5 Reanalysis
 
 ERA5 reanalysis data (Hersbach et al., 2020) are used for (1) WRF initial and boundary conditions, (2) synoptic pattern classification, and (3) early warning model features. Variables downloaded via the Copernicus Climate Data Store (CDS) API include 10 m and 100 m wind speed (u, v components), mean sea-level pressure, 2 m temperature, total precipitation, and 500/850 hPa geopotential and temperature. Spatial domain: 25–45°E, 34–44°N (0.25° × 0.25° resolution). Temporal coverage: hourly for surface variables (2022–2025), 6-hourly for pressure levels.
 
-### 3.5 WRF Mesoscale Simulations
+### 3.4 WRF Mesoscale Simulations
 
 WRF version 4.x (Skamarock et al., 2019) is configured with the Advanced Research WRF (ARW) dynamical core in a two-way nested two-domain setup. The outer domain (d01, 9 km) covers Turkey and surrounding seas, providing realistically spun-up mesoscale boundary conditions for the inner high-resolution domain; the inner domain (d02, 3 km) focuses on north-western Turkey. This two-domain approach reduces boundary-forcing artefacts that arise when driving a 3 km domain directly from 0.25° ERA5 reanalysis, following Priya et al. (2021) and Santoni et al. (2020). The inner domain explicitly resolves convective processes (cumulus disabled). The same physics suite is applied to both domains: Thompson aerosol-aware microphysics (mp_physics = 8), RRTMG longwave/shortwave radiation (ra = 4), YSU planetary boundary layer, MM5 surface layer, and Noah land surface model (4 levels). Kain–Fritsch cumulus is active only in d01. A 4-day simulation was performed for 14–18 March 2025 (12 h spin-up), driven by ERA5 6-hourly boundary conditions interpolated through WPS (Table 3).
 
-**Table 3.** WRF two-domain model configuration summary.
+**Table 1.** WRF two-domain model configuration summary.
 
 
 | Parameter             | d01 (outer)                        | d02 (inner)                    |
@@ -179,7 +151,7 @@ WRF version 4.x (Skamarock et al., 2019) is configured with the Advanced Researc
 
 The Hard Cutoff Observatory for Turkish Wind Farms with Meteorological Context and Warning (HCOT-MW) organizes the analysis into four sequential layers (Figure 2):
 
-1. **Data Layer**: Integration of EPİAŞ hourly generation, MGM surface observations, ERA5 reanalysis, and WRF simulations.
+1. **Data Layer**: Integration of EPİAŞ hourly generation, ERA5 reanalysis, and WRF mesoscale simulations.
 2. **Detection Layer**: Threshold-based hard cutoff detection applied to plant-level production time series.
 3. **Analysis Layer**: Synoptic pattern classification, spatial vulnerability indexing, economic impact quantification, and compound event analysis.
 4. **Forecast Layer**: Temporal Fusion Transformer early warning model and vulnerability hotspot mapping.
@@ -232,11 +204,7 @@ The economic loss associated with each hard cutoff event is computed as:
 
 where Energy Lost = Production Drop (MW) × 1 hour, and PTF (Piyasa Takas Fiyatı) is the EPİAŞ market clearing price at the event hour. Where actual PTF data are unavailable, monthly average estimates (2,600–3,100 TL/MWh for the study period) are used as conservative approximations. Grid balancing costs are estimated as a 15% premium over revenue loss, reflecting the TEIAS reserve activation premium documented in balancing market historical reports. For YEKDEM tariff basis comparison, the 2021 contract rate of 73 USD/MWh is applied.
 
-### 4.6 WRF Validation Methodology
-
-WRF 10 m and 100 m wind speed output is compared against concurrent MGM surface observations at four matched station-farm pairs (15–16 March 2025, n = 38 h per station). Performance metrics include Bias (mean model error), RMSE, Pearson correlation coefficient (r), and Normalized RMSE (NRMSE). The systematic positive bias of WRF relative to MGM surface stations is physically interpretable: WRF grid points represent open, elevated terrain characteristic of wind farm sites, whereas MGM stations occupy sheltered valley environments 10–40 km away (Hahmann et al., 2020).
-
-### 4.7 Early Warning Model
+### 4.6 Early Warning Model
 
 The early warning system frames hard cutoff prediction as a binary classification problem: given observations up to time t, predict whether a cutoff event will occur at plant p during the interval [t+6h, t+24h].
 
@@ -254,7 +222,7 @@ The early warning system frames hard cutoff prediction as a binary classificatio
 
 The detection algorithm, applied to the October 2024–April 2025 EPİAŞ dataset, identifies **78 hard cutoff events** across **30 wind farms**, representing approximately 16% of all licensed YEKDEM wind plants. Total cumulative production losses amount to **4,931 MW** across these events (Table 4; Figure 3). Fifty-four percent of detected events (42 events) involve a complete shutdown to 0 MW, confirming that the >80% threshold effectively captures true all-turbine shutdowns.
 
-**Table 4.** Monthly summary of hard cutoff events (October 2024 – April 2025).
+**Table 2.** Monthly summary of hard cutoff events (October 2024 – April 2025).
 
 
 | Month          | Events | Total Loss (MW) | Max Single Event (MW) | Plants Affected |
@@ -277,9 +245,9 @@ December 2024 is the second most active month (15 events, 970 MW), driven primar
 
 ### 5.2 Top Affected Wind Farms
 
-The ten most affected plants, accounting for 71% of total production losses, are presented in Table 5.
+The ten most affected plants, accounting for 71% of total production losses, are presented in Table 3.
 
-**Table 5.** Top 10 most affected wind farms (October 2024 – April 2025).
+**Table 3.** Top 10 most affected wind farms (October 2024 – April 2025).
 
 
 | Wind Farm                  | Region           | Events | Total Loss (MW) | Max Event (MW) | CVI Class |
@@ -318,11 +286,11 @@ The co-occurrence analysis shows that on the 16 March 2025 storm day, 14 of the 
 
 ### 5.5 Economic Impact
 
-Based on estimated monthly PTF rates (2,600–3,100 TL/MWh) applied to the 4,931 MWh of lost production (1 MW × 1 h = 1 MWh per event-hour), the total revenue loss is estimated at **13.76 million TL**. Adding the 15% TEIAS balancing premium (representing the cost of reserve activation to compensate the sudden generation loss) yields a total economic impact of **15.82 million TL**, equivalent to approximately **458 thousand USD** at prevailing 2025 exchange rates (Table 6).
+Based on estimated monthly PTF rates (2,600–3,100 TL/MWh) applied to the 4,931 MWh of lost production (1 MW × 1 h = 1 MWh per event-hour), the total revenue loss is estimated at **13.76 million TL**. Adding the 15% TEIAS balancing premium (representing the cost of reserve activation to compensate the sudden generation loss) yields a total economic impact of **15.82 million TL**, equivalent to approximately **458 thousand USD** at prevailing 2025 exchange rates (Table 4).
 
 For comparison, the YEKDEM tariff basis (73 USD/MWh guaranteed rate) implies a YEKDEM loss of approximately **360 thousand USD** — consistent with the market-based estimate, confirming the robustness of the approach. March 2025 alone accounts for 38% of the total economic loss, reflecting the concentration of events in this month.
 
-**Table 6.** Economic impact summary (October 2024 – April 2025).
+**Table 4.** Economic impact summary (October 2024 – April 2025).
 
 
 | Component                      | Value                              |
@@ -337,26 +305,11 @@ For comparison, the YEKDEM tariff basis (73 USD/MWh guaranteed rate) implies a Y
 
 Annualized, these figures suggest an approximate system-wide economic cost from hard cutoffs of 22–26 million TL per year (≈620–720 k USD/yr) if the observed October–April rate (78 events; 4,931 MW) is extended to a full calendar year (noting that May–September likely contribute fewer events based on the winter-dominant seasonal pattern).
 
-### 5.6 WRF Model Validation
+### 5.6 WRF Synoptic Context
 
-WRF 10 m wind speed validation against MGM surface observations over 15–16 March 2025 (38 h, 4 station-farm pairs) shows RMSE values of 1.87–3.08 m/s at 10 m and 2.01–5.36 m/s at 100 m (Figure 7; Table 7). All stations exhibit a systematic positive bias (+0.86 m/s average at 10 m; +1.31 m/s at 100 m), which is physically expected: WRF grid points represent open, elevated terrain at wind farm locations, while MGM stations are situated in sheltered valley environments. The strongest agreement is found at GÜLPINAR (Çanakkale; r = 0.74 at 100 m) and İSTANBUL (r = 0.80 at 10 m), both coastal locations with more representative station positioning. WRF captures the temporal evolution of the storm system, including the pre-frontal wind acceleration on 15 March and the sharp directional shift on 16 March.
+The WRF two-domain simulation (d01: 9 km; d02: 3 km) for 14–18 March 2025 provides high-resolution meteorological context for interpreting the 16 March fleet-wide shutdown (Figure 7). The simulated 100 m wind field over d02 on 16 March 2025 00:00–12:00 UTC shows a well-defined southwesterly flow corridor exceeding 20–25 m/s across the Thrace ridge and the northern Marmara coastline, consistent with the spatial distribution of cutoff events (Figure 6). The 9 km outer domain correctly captures the synoptic-scale low-pressure system centred over the northwestern Black Sea and the associated strong pressure gradient across northwestern Turkey, which drove the fleet-wide event.
 
-**Table 7.** WRF validation metrics (15–16 March 2025).
-
-
-| Station    | N       | Bias 10m (m/s) | RMSE 10m (m/s) | r (10m)  | Bias 100m (m/s) | RMSE 100m (m/s) | r (100m) |
-| ---------- | ------- | -------------- | -------------- | -------- | --------------- | --------------- | -------- |
-| TATLIPINAR | 38      | −0.04          | 1.09           | 0.44     | −0.20           | 1.32            | 0.52     |
-| GÜLPINAR   | 38      | +1.20          | 1.55           | 0.75     | +1.50           | 2.11            | 0.74     |
-| İSTANBUL   | 38      | +1.58          | 1.70           | 0.80     | +2.99           | 3.20            | 0.51     |
-| ÜÇPINAR    | 38      | −1.57          | 2.30           | −0.11    | −3.90           | 4.38            | 0.08     |
-| TAŞPINAR   | 38      | +1.25          | 1.73           | 0.34     | +2.73           | 3.19            | 0.42     |
-| GÖKTEPE    | 38      | +2.87          | 3.12           | 0.36     | +4.97           | 5.36            | 0.25     |
-| ZONGULDAK  | 38      | +0.74          | 1.58           | 0.00     | +1.07           | 2.01            | 0.00     |
-| **Mean**   | **266** | **+0.86**      | **1.87**       | **0.37** | **+1.31**       | **3.08**        | **0.36** |
-
-
-The negative bias at ÜÇPINAR (−3.9 m/s at 100 m) and near-zero correlation at ZONGULDAK are attributed to the complex terrain interaction and boundary effects at the eastern edge of the simulation domain. Day 2 (16 March; the actual peak storm day) shows substantially improved correlation compared to Day 1 (r: −0.04 → 0.57 at 100 m), confirming that WRF skill improves as the synoptic forcing strengthens and overrides the initial condition uncertainty from spin-up.
+The WRF simulation reveals several physically meaningful features that support the attribution of the cutoff events to large-scale meteorological forcing rather than local or plant-level causes: (1) the >25 m/s wind corridor at 100 m height encompasses all 15 plants that shut down on 16 March; (2) the onset of high winds at 00:00 UTC aligns with the pre-frontal acceleration phase captured in the ERA5 synoptic composites (Section 5.4); and (3) the spatial gradient between the high-wind Thrace zone and the lower-wind Sakarya-Adapazarı region mirrors the co-occurrence clustering pattern (Section 5.3). These results confirm that the HCOT-MW synoptic classification, derived from ERA5 MSLP composites, correctly identifies the dominant meteorological mechanism at the mesoscale. Quantitative model evaluation against observational data is planned as future work, pending access to hub-height wind measurements or co-located meteorological mast data at affected wind farm sites.
 
 ### 5.7 Early Warning Model Performance
 
@@ -364,7 +317,7 @@ The XGBoost classifier trained on the Çanakkale regional dataset (14 plants, 55
 
 The TFT model design is validated through successful instantiation with the Çanakkale dataset (full training to be reported in subsequent work pending complete multi-year EPİAŞ generation data), with the attention weights expected to identify synoptic-timescale meteorological signals 12–24 h before events.
 
-**Table 8.** Early warning model comparison.
+**Table 5.** Early warning model comparison.
 
 
 | Model              | Type          | ROC-AUC   | Brier Score | F1     |
@@ -399,11 +352,11 @@ The estimated total economic loss of 15.82 million TL (≈458 k USD) for the 7-m
 
 The economic quantification also enables cost-benefit analysis for early warning system deployment. An early warning system with 4-hour lead time would allow pre-positioning of spinning reserves, eliminating the balancing premium. At the estimated 2.06 million TL/yr balancing cost, even a modest early warning system costing less than 2 million TL/yr would provide net economic benefit.
 
-### 6.4 WRF Capability and Limitations
+### 6.4 WRF as Synoptic Context Tool
 
-The WRF validation results reveal both the model's capability and its limitations for operational cutoff risk assessment. The systematic positive bias (all stations positive at 10 m and predominantly positive at 100 m) is expected and does not represent a modeling deficiency per se — it reflects the elevation and exposure contrast between wind farm ridge-top locations and sheltered meteorological station environments. For risk assessment purposes, the key model attribute is whether WRF correctly captures the temporal evolution of wind speed during the storm approach and the spatial pattern of maximum wind speeds. The Day 2 improvement (r: −0.04 → 0.57 at 100 m) confirms that WRF becomes more reliable as synoptic forcing strengthens, which is precisely the regime relevant to hard cutoff prediction.
+The WRF simulation is used in this study as a high-resolution diagnostic tool for interpreting the meteorological conditions during the March 2025 fleet-wide cutoff event, rather than as an operational forecast model. This framing is deliberate: the HCOT-MW framework's primary detection and attribution pathway relies on ERA5 reanalysis and EPİAŞ production data, both of which are publicly available and operationally accessible. WRF adds value by downscaling ERA5's 0.25° (~28 km) fields to 3 km, resolving terrain-channeling effects in the Thrace straits and the Marmara coastline that are smoothed out in ERA5. The simulated 100 m wind field confirms that the >25 m/s corridor responsible for the 16 March shutdowns is a mesoscale feature tied to the orographic channeling of the synoptic southwesterly flow — a finding that ERA5 alone cannot resolve at sufficient detail.
 
-The negative correlation at ZONGULDAK (r ≈ 0.00 at both levels) and the anomalously high RMSE at GÖKTEPE (5.36 m/s at 100 m) are attributed to complex local topography and the influence of the Black Sea coastline at the eastern margin of d02. With the two-domain setup, ZONGULDAK benefits from improved d01 synoptic forcing, but its position near the d02 boundary edge remains a limitation. Further nesting to a 1 km microscale domain over these complex terrain regions is an avenue for future work.
+The two-domain nesting strategy (d01: 9 km → d02: 3 km) is a key methodological choice: driving a 3 km domain directly from 0.25° ERA5 introduces boundary forcing errors that can alias into the interior solution (Priya et al., 2021). The outer 9 km domain provides a properly spun-up mesoscale environment that reduces this artefact. Future work will conduct quantitative evaluation of the WRF simulations against hub-height wind data or independent reanalysis products across multiple storm events, to characterise model performance across the range of synoptic regimes identified in the cutoff event catalogue.
 
 ### 6.5 Early Warning System Performance
 
@@ -413,7 +366,7 @@ Future work will train the TFT model on the full extended dataset (2022–2025, 
 
 ### 6.6 Limitations
 
-Several limitations should be acknowledged. First, the study period (7 months; October 2024–April 2025) covers a relatively short record that may not fully represent the long-term climatological frequency of hard cutoff events. Extending to 3+ years via the EPİAŞ API is feasible and is planned for a follow-up study. Second, the economic estimates use approximated PTF prices in the absence of actual hourly price downloads; actual prices may vary significantly during storm events (price spikes are common during balancing activation). Third, the synoptic classification uses ERA5-based composite analysis rather than objective reanalysis-based clustering, introducing some analyst subjectivity in class labeling. Fourth, the WRF validation covers only one storm event (15–16 March 2025); validation over multiple storms with different synoptic patterns is needed to fully characterize model performance across cutoff-relevant regimes.
+Several limitations should be acknowledged. First, the study period (7 months; October 2024–April 2025) covers a relatively short record that may not fully represent the long-term climatological frequency of hard cutoff events. Extending to 3+ years via the EPİAŞ API is feasible and is planned for a follow-up study. Second, the economic estimates use approximated PTF prices in the absence of actual hourly price downloads; actual prices may vary significantly during storm events (price spikes are common during balancing activation). Third, the synoptic classification uses ERA5-based composite analysis rather than objective reanalysis-based clustering, introducing some analyst subjectivity in class labeling. Fourth, the WRF simulation provides synoptic context for a single storm event (14–18 March 2025); quantitative evaluation against hub-height observational data across multiple storm events remains as future work.
 
 ---
 
@@ -421,11 +374,11 @@ Several limitations should be acknowledged. First, the study period (7 months; O
 
 This study introduced the HCOT-MW framework for systematic, data-driven analysis of hard cutoff events in Turkey's licensed wind power fleet, and applied it to a seven-month dataset from the EPİAŞ Transparency Platform. The main findings are:
 
-1. **Detection efficacy.** A three-threshold algorithm applied to EPİAŞ hourly generation data identifies 78 hard cutoff events across 30 wind farms (October 2024–April 2025), with cumulative production losses of 4,931 MW and 54% complete shutdowns. The algorithm operates without any wind speed measurements and is validated by meteorological observations from the concurrent MGM and WRF datasets.
+1. **Detection efficacy.** A three-threshold algorithm applied to EPİAŞ hourly generation data identifies 78 hard cutoff events across 30 wind farms (October 2024–April 2025), with cumulative production losses of 4,931 MW and 54% complete shutdowns. The algorithm operates without any wind speed measurements, relying solely on publicly available market-transparency production data.
 2. **Seasonal and spatial concentration.** Hard cutoffs are predominantly a winter phenomenon (October–April), consistent with the heightened extratropical cyclone activity over Turkey during boreal winter. Thrace is the most vulnerable region, with KIYIKÖY RES recording 18 events — the highest individual plant exposure in the fleet — and a Composite Vulnerability Index of 0.83 (Very High class). The 16 March 2025 storm event, triggering 15 simultaneous cutoffs with 794 MW combined loss, illustrates the systemic risk of spatially correlated fleet-wide shutdowns.
 3. **Meteorological attribution.** Cold frontal systems (46% of events) and Mediterranean cyclones (27%) are the dominant synoptic patterns driving hard cutoffs, confirming that these events are primarily driven by large-scale extratropical weather systems predictable at NWP timescales of 1–3 days.
 4. **Economic impact.** The total economic cost of detected events is estimated at 15.82 million TL (≈458 k USD), including lost YEKDEM revenue and grid balancing costs. Annualized, this represents approximately 670 k USD/yr in system-wide costs, concentrated in a small number of storm days.
-5. **WRF modeling.** A two-way nested WRF configuration (9 km outer / 3 km inner) captures the temporal evolution of the 15–16 March 2025 storm with RMSE values of 1.87–3.08 m/s at 10 m, with physically interpretable systematic biases. Day 2 (storm peak) shows substantially better correlation than Day 1 (pre-storm), confirming increasing WRF skill as synoptic forcing strengthens. The 9 km outer domain is critical for correctly representing the synoptic-scale pressure gradient that drove the cutoff event.
+5. **WRF synoptic context.** A two-way nested WRF configuration (9 km outer / 3 km inner) resolves the mesoscale wind corridor responsible for the 16 March 2025 fleet-wide shutdown, with simulated 100 m wind speeds exceeding 25 m/s across the Thrace ridge — consistent with the spatial distribution of cutoff events and confirming orographic flow channeling as the proximate mechanism.
 6. **Early warning.** An XGBoost classifier trained on per-plant Çanakkale regional data achieves ROC-AUC = 0.859, demonstrating that hard cutoffs exhibit detectable meteorological precursors accessible via ERA5 and production history features available 6–24 h in advance.
 
 **Policy and operational recommendations.** Grid operators (TEIAS) should plan spinning reserve requirements to account for simultaneous loss of 500–800 MW from the Thrace-Marmara corridor during winter frontal passage events, not just single-plant contingencies. Wind farm operators in Thrace, particularly at KIYIKÖY, should implement storm ride-through technologies (soft-reboot, advanced pitch control) to reduce the frequency and severity of cutoffs. The early warning framework, once extended to the full fleet with multi-year training data, can be integrated into TEIAS day-ahead reserve planning. Future turbine procurement specifications for exposed Thrace sites should prioritize IEC Class I (25 m/s cut-out) or S (site-specific) turbines.
@@ -436,13 +389,13 @@ This study introduced the HCOT-MW framework for systematic, data-driven analysis
 
 ## Acknowledgements
 
-The authors thank Assoc. Prof. Elçin Tan for supervision and the Turkish State Meteorological Service (MGM) for providing surface observation data. ERA5 data were downloaded from the Copernicus Climate Change Service (CDS). EPİAŞ generation data were obtained via the publicly accessible Transparency Platform API.
+The authors thank Assoc. Prof. Elçin Tan for supervision and scientific guidance. ERA5 data were downloaded from the Copernicus Climate Change Service (CDS). EPİAŞ generation data were obtained via the publicly accessible Transparency Platform API.
 
 ---
 
 ## Data Availability
 
-The HCOT-MW analysis pipeline, detection algorithm, and all derived datasets are made available at [GitHub repository to be provided upon acceptance]. EPİAŞ data are available at [https://seffaflik.epias.com.tr/](https://seffaflik.epias.com.tr/). ERA5 data are available at [https://cds.climate.copernicus.eu/](https://cds.climate.copernicus.eu/). MGM data are available upon request from [https://www.mgm.gov.tr/](https://www.mgm.gov.tr/).
+The HCOT-MW analysis pipeline, detection algorithm, and all derived datasets are made available at [GitHub repository to be provided upon acceptance]. EPİAŞ data are available at [https://seffaflik.epias.com.tr/](https://seffaflik.epias.com.tr/). ERA5 data are available at [https://cds.climate.copernicus.eu/](https://cds.climate.copernicus.eu/).
 
 ---
 
