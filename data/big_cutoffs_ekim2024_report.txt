@@ -1,0 +1,62 @@
+======================================================================
+🌬️  EKIM 2024 RES HARD CUT-OFF ANALİZ RAPORU
+======================================================================
+Analiz Tarihi: 2025-12-27 19:09
+Veri Kaynağı: EPİAŞ Şeffaflık Platformu
+Kriter: >50 MW rüzgar üretiminden >%80 düşüş, <10 MW son değer
+
+──────────────────────────────────────────────────
+ÖZET İSTATİSTİKLER
+──────────────────────────────────────────────────
+Toplam Cut-off Olayı: 8
+Etkilenen RES Sayısı: 6
+Toplam Kayıp: 495 MW
+Ortalama Kayıp: 62 MW
+Maksimum Kayıp: 89 MW
+Tamamen Durma (→0 MW): 4 olay
+
+──────────────────────────────────────────────────
+TÜM CUT-OFF OLAYLARI
+──────────────────────────────────────────────────
+
+🔴 KANGAL RES
+   2024-10-18 04:00: 89 → 0 MW (kayıp: 89 MW) →0
+
+🔴 KIYIKÖY RES
+   2024-10-10 22:00: 71 → 6 MW (kayıp: 65 MW) 
+
+🔴 EBER RES
+   2024-10-22 19:00: 62 → 0 MW (kayıp: 62 MW) →0
+
+🔴 KIYIKÖY RES
+   2024-10-18 06:00: 70 → 9 MW (kayıp: 61 MW) 
+
+🔴 EBER RES
+   2024-10-29 09:00: 61 → 0 MW (kayıp: 61 MW) →0
+
+🔴 TAŞPINAR RES(GALATA WİND)
+   2024-10-29 21:00: 56 → 0 MW (kayıp: 56 MW) →0
+
+🔴 İSTANBUL RES
+   2024-10-07 01:00: 61 → 8 MW (kayıp: 53 MW) 
+
+🔴 GÖKTEPE RES
+   2024-10-31 23:00: 54 → 6 MW (kayıp: 48 MW) 
+
+──────────────────────────────────────────────────
+RES BAZINDA ÖZET
+──────────────────────────────────────────────────
+KIYIKÖY RES
+   Olay: 2, Toplam: 126 MW, Max: 65 MW
+EBER RES
+   Olay: 2, Toplam: 122 MW, Max: 62 MW
+KANGAL RES
+   Olay: 1, Toplam: 89 MW, Max: 89 MW
+TAŞPINAR RES(GALATA WİND)
+   Olay: 1, Toplam: 56 MW, Max: 56 MW
+İSTANBUL RES
+   Olay: 1, Toplam: 53 MW, Max: 53 MW
+GÖKTEPE RES
+   Olay: 1, Toplam: 48 MW, Max: 48 MW
+
+======================================================================

@@ -1,0 +1,84 @@
+======================================================================
+🌬️  NISAN 2025 RES HARD CUT-OFF ANALİZ RAPORU
+======================================================================
+Analiz Tarihi: 2025-12-27 19:09
+Veri Kaynağı: EPİAŞ Şeffaflık Platformu
+Kriter: >50 MW rüzgar üretiminden >%80 düşüş, <10 MW son değer
+
+──────────────────────────────────────────────────
+ÖZET İSTATİSTİKLER
+──────────────────────────────────────────────────
+Toplam Cut-off Olayı: 12
+Etkilenen RES Sayısı: 11
+Toplam Kayıp: 661 MW
+Ortalama Kayıp: 55 MW
+Maksimum Kayıp: 74 MW
+Tamamen Durma (→0 MW): 4 olay
+
+──────────────────────────────────────────────────
+TÜM CUT-OFF OLAYLARI
+──────────────────────────────────────────────────
+
+🔴 BOZÜYÜK RES
+   2025-04-10 20:00: 74 → 0 MW (kayıp: 74 MW) →0
+
+🔴 MUTLU RES 5
+   2025-04-20 04:00: 74 → 0 MW (kayıp: 74 MW) →0
+
+🔴 ATAKALE RES
+   2025-04-22 21:00: 69 → 0 MW (kayıp: 69 MW) →0
+
+🔴 BAĞLAR RES (BAĞLAR ELK.ÜRT.A.Ş.)
+   2025-04-24 02:00: 65 → 7 MW (kayıp: 58 MW) 
+
+🔴 EBER RES
+   2025-04-07 09:00: 57 → 0 MW (kayıp: 57 MW) →0
+
+🔴 KUŞADASI RES
+   2025-04-30 18:00: 59 → 6 MW (kayıp: 53 MW) 
+
+🔴 MASLAKTEPE RES(ENİ)
+   2025-04-01 01:00: 55 → 3 MW (kayıp: 52 MW) 
+
+🔴 ATAKALE RES
+   2025-04-25 18:00: 57 → 7 MW (kayıp: 50 MW) 
+
+🔴 CERİT RES_(PAKMEM)
+   2025-04-29 13:00: 53 → 7 MW (kayıp: 46 MW) 
+
+🔴 KIYIKÖY RES
+   2025-04-02 06:00: 54 → 10 MW (kayıp: 44 MW) 
+
+🔴 DENİZLİ RES
+   2025-04-24 13:00: 52 → 8 MW (kayıp: 44 MW) 
+
+🔴 YAHYALI RES(BAK)
+   2025-04-22 14:00: 51 → 10 MW (kayıp: 42 MW) 
+
+──────────────────────────────────────────────────
+RES BAZINDA ÖZET
+──────────────────────────────────────────────────
+ATAKALE RES
+   Olay: 2, Toplam: 119 MW, Max: 69 MW
+BOZÜYÜK RES
+   Olay: 1, Toplam: 74 MW, Max: 74 MW
+MUTLU RES 5
+   Olay: 1, Toplam: 74 MW, Max: 74 MW
+BAĞLAR RES (BAĞLAR ELK.ÜRT.A.Ş.)
+   Olay: 1, Toplam: 58 MW, Max: 58 MW
+EBER RES
+   Olay: 1, Toplam: 57 MW, Max: 57 MW
+KUŞADASI RES
+   Olay: 1, Toplam: 53 MW, Max: 53 MW
+MASLAKTEPE RES(ENİ)
+   Olay: 1, Toplam: 52 MW, Max: 52 MW
+CERİT RES_(PAKMEM)
+   Olay: 1, Toplam: 46 MW, Max: 46 MW
+DENİZLİ RES
+   Olay: 1, Toplam: 44 MW, Max: 44 MW
+KIYIKÖY RES
+   Olay: 1, Toplam: 44 MW, Max: 44 MW
+YAHYALI RES(BAK)
+   Olay: 1, Toplam: 42 MW, Max: 42 MW
+
+======================================================================

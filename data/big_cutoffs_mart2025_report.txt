@@ -1,0 +1,144 @@
+======================================================================
+🌬️  MART 2025 RES HARD CUT-OFF ANALİZ RAPORU
+======================================================================
+Analiz Tarihi: 2025-12-27 19:09
+Veri Kaynağı: EPİAŞ Şeffaflık Platformu
+Kriter: >50 MW rüzgar üretiminden >%80 düşüş, <10 MW son değer
+
+──────────────────────────────────────────────────
+ÖZET İSTATİSTİKLER
+──────────────────────────────────────────────────
+Toplam Cut-off Olayı: 26
+Etkilenen RES Sayısı: 20
+Toplam Kayıp: 1856 MW
+Ortalama Kayıp: 71 MW
+Maksimum Kayıp: 109 MW
+Tamamen Durma (→0 MW): 15 olay
+
+──────────────────────────────────────────────────
+TÜM CUT-OFF OLAYLARI
+──────────────────────────────────────────────────
+
+🔴 GÜLPINAR RES
+   2025-03-27 08:00: 118 → 9 MW (kayıp: 109 MW) 
+
+🔴 İSTANBUL RES
+   2025-03-16 11:00: 109 → 0 MW (kayıp: 109 MW) →0
+
+🔴 TATLIPINAR RES
+   2025-03-16 10:00: 111 → 7 MW (kayıp: 104 MW) 
+
+🔴 GÜLPINAR RES
+   2025-03-16 10:00: 98 → 0 MW (kayıp: 98 MW) →0
+
+🔴 EVRENCİK RES
+   2025-03-16 22:00: 97 → 9 MW (kayıp: 89 MW) 
+
+🔴 ÜÇPINAR RES
+   2025-03-16 11:00: 87 → 0 MW (kayıp: 87 MW) →0
+
+🔴 EVRENCİK RES
+   2025-03-16 10:00: 81 → 0 MW (kayıp: 81 MW) →0
+
+🔴 TAŞPINAR RES(GALATA WİND)
+   2025-03-16 11:00: 77 → 0 MW (kayıp: 77 MW) →0
+
+🔴 GÖKTEPE RES
+   2025-03-16 11:00: 76 → 0 MW (kayıp: 76 MW) →0
+
+🔴 ZONGULDAK RES
+   2025-03-16 11:00: 74 → 1 MW (kayıp: 74 MW) →0
+
+🔴 KOCATEPE RES(İzdem)
+   2025-03-31 10:00: 72 → 0 MW (kayıp: 72 MW) →0
+
+🔴 KUŞADASI RES
+   2025-03-28 03:00: 75 → 7 MW (kayıp: 68 MW) 
+
+🔴 ATARES-2 RES
+   2025-03-16 11:00: 67 → 0 MW (kayıp: 67 MW) →0
+
+🔴 SÜLOĞLU RES
+   2025-03-18 23:00: 66 → 0 MW (kayıp: 66 MW) →0
+
+🔴 KIYIKÖY RES
+   2025-03-28 10:00: 73 → 8 MW (kayıp: 65 MW) 
+
+🔴 ÖMERLİ RES(BETİM)
+   2025-03-28 15:00: 68 → 4 MW (kayıp: 64 MW) 
+
+🔴 KUŞADASI RES
+   2025-03-31 10:00: 66 → 6 MW (kayıp: 60 MW) 
+
+🔴 VİZE-2 RES
+   2025-03-16 22:00: 67 → 8 MW (kayıp: 60 MW) 
+
+🔴 BERGRES RES
+   2025-03-16 11:00: 60 → 1 MW (kayıp: 58 MW) 
+
+🔴 DENİZLİ RES
+   2025-03-31 10:00: 58 → 0 MW (kayıp: 58 MW) →0
+
+🔴 ATARES-1 RES
+   2025-03-16 11:00: 56 → 0 MW (kayıp: 56 MW) →0
+
+🔴 GÜLPINAR RES
+   2025-03-26 16:00: 57 → 4 MW (kayıp: 53 MW) 
+
+🔴 GEYVE RES
+   2025-03-16 11:00: 53 → 0 MW (kayıp: 53 MW) →0
+
+🔴 GÖKTEPE RES
+   2025-03-26 08:00: 51 → 0 MW (kayıp: 51 MW) →0
+
+🔴 KIYIKÖY RES
+   2025-03-16 22:00: 57 → 6 MW (kayıp: 51 MW) 
+
+🔴 OVACIK RES
+   2025-03-31 22:00: 51 → 0 MW (kayıp: 51 MW) →0
+
+──────────────────────────────────────────────────
+RES BAZINDA ÖZET
+──────────────────────────────────────────────────
+GÜLPINAR RES
+   Olay: 3, Toplam: 260 MW, Max: 109 MW
+EVRENCİK RES
+   Olay: 2, Toplam: 169 MW, Max: 89 MW
+KUŞADASI RES
+   Olay: 2, Toplam: 129 MW, Max: 68 MW
+GÖKTEPE RES
+   Olay: 2, Toplam: 127 MW, Max: 76 MW
+KIYIKÖY RES
+   Olay: 2, Toplam: 116 MW, Max: 65 MW
+İSTANBUL RES
+   Olay: 1, Toplam: 109 MW, Max: 109 MW
+TATLIPINAR RES
+   Olay: 1, Toplam: 104 MW, Max: 104 MW
+ÜÇPINAR RES
+   Olay: 1, Toplam: 87 MW, Max: 87 MW
+TAŞPINAR RES(GALATA WİND)
+   Olay: 1, Toplam: 77 MW, Max: 77 MW
+ZONGULDAK RES
+   Olay: 1, Toplam: 74 MW, Max: 74 MW
+KOCATEPE RES(İzdem)
+   Olay: 1, Toplam: 72 MW, Max: 72 MW
+ATARES-2 RES
+   Olay: 1, Toplam: 67 MW, Max: 67 MW
+SÜLOĞLU RES
+   Olay: 1, Toplam: 66 MW, Max: 66 MW
+ÖMERLİ RES(BETİM)
+   Olay: 1, Toplam: 64 MW, Max: 64 MW
+VİZE-2 RES
+   Olay: 1, Toplam: 60 MW, Max: 60 MW
+DENİZLİ RES
+   Olay: 1, Toplam: 58 MW, Max: 58 MW
+BERGRES RES
+   Olay: 1, Toplam: 58 MW, Max: 58 MW
+ATARES-1 RES
+   Olay: 1, Toplam: 56 MW, Max: 56 MW
+GEYVE RES
+   Olay: 1, Toplam: 53 MW, Max: 53 MW
+OVACIK RES
+   Olay: 1, Toplam: 51 MW, Max: 51 MW
+
+======================================================================

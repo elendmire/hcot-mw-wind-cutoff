@@ -1,0 +1,91 @@
+======================================================================
+🌬️  ARALIK 2024 RES HARD CUT-OFF ANALİZ RAPORU
+======================================================================
+Analiz Tarihi: 2025-12-27 19:09
+Veri Kaynağı: EPİAŞ Şeffaflık Platformu
+Kriter: >50 MW rüzgar üretiminden >%80 düşüş, <10 MW son değer
+
+──────────────────────────────────────────────────
+ÖZET İSTATİSTİKLER
+──────────────────────────────────────────────────
+Toplam Cut-off Olayı: 15
+Etkilenen RES Sayısı: 10
+Toplam Kayıp: 970 MW
+Ortalama Kayıp: 65 MW
+Maksimum Kayıp: 121 MW
+Tamamen Durma (→0 MW): 5 olay
+
+──────────────────────────────────────────────────
+TÜM CUT-OFF OLAYLARI
+──────────────────────────────────────────────────
+
+🔴 KANGAL RES
+   2024-12-14 00:00: 121 → 0 MW (kayıp: 121 MW) →0
+
+🔴 BAĞLAR RES (BAĞLAR ELK.ÜRT.A.Ş.)
+   2024-12-21 23:00: 83 → 3 MW (kayıp: 79 MW) 
+
+🔴 KANGAL RES
+   2024-12-22 08:00: 78 → 5 MW (kayıp: 73 MW) 
+
+🔴 KOCATEPE RES(İzdem)
+   2024-12-15 08:00: 71 → 0 MW (kayıp: 71 MW) →0
+
+🔴 TAŞPINAR RES(GALATA WİND)
+   2024-12-21 00:00: 71 → 0 MW (kayıp: 71 MW) →0
+
+🔴 GÖKTEPE RES
+   2024-12-10 22:00: 77 → 9 MW (kayıp: 68 MW) 
+
+🔴 TAŞPINAR RES(GALATA WİND)
+   2024-12-20 02:00: 63 → 0 MW (kayıp: 63 MW) →0
+
+🔴 KIYIKÖY RES
+   2024-12-21 22:00: 72 → 10 MW (kayıp: 62 MW) 
+
+🔴 SİLİVRİ RES
+   2024-12-03 08:00: 59 → 0 MW (kayıp: 59 MW) →0
+
+🔴 SÜLOĞLU RES
+   2024-12-29 12:00: 59 → 1 MW (kayıp: 58 MW) 
+
+🔴 İSTANBUL RES
+   2024-12-21 14:00: 56 → 1 MW (kayıp: 54 MW) 
+
+🔴 TAŞPINAR RES(GALATA WİND)
+   2024-12-11 03:00: 58 → 4 MW (kayıp: 53 MW) 
+
+🔴 KIYIKÖY RES
+   2024-12-08 03:00: 58 → 9 MW (kayıp: 49 MW) 
+
+🔴 BOZÜYÜK RES
+   2024-12-22 04:00: 54 → 8 MW (kayıp: 46 MW) 
+
+🔴 KIYIKÖY RES
+   2024-12-09 15:00: 51 → 8 MW (kayıp: 42 MW) 
+
+──────────────────────────────────────────────────
+RES BAZINDA ÖZET
+──────────────────────────────────────────────────
+KANGAL RES
+   Olay: 2, Toplam: 194 MW, Max: 121 MW
+TAŞPINAR RES(GALATA WİND)
+   Olay: 3, Toplam: 187 MW, Max: 71 MW
+KIYIKÖY RES
+   Olay: 3, Toplam: 153 MW, Max: 62 MW
+BAĞLAR RES (BAĞLAR ELK.ÜRT.A.Ş.)
+   Olay: 1, Toplam: 79 MW, Max: 79 MW
+KOCATEPE RES(İzdem)
+   Olay: 1, Toplam: 71 MW, Max: 71 MW
+GÖKTEPE RES
+   Olay: 1, Toplam: 68 MW, Max: 68 MW
+SİLİVRİ RES
+   Olay: 1, Toplam: 59 MW, Max: 59 MW
+SÜLOĞLU RES
+   Olay: 1, Toplam: 58 MW, Max: 58 MW
+İSTANBUL RES
+   Olay: 1, Toplam: 54 MW, Max: 54 MW
+BOZÜYÜK RES
+   Olay: 1, Toplam: 46 MW, Max: 46 MW
+
+======================================================================

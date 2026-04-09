@@ -1,0 +1,6 @@
+station_id,station_name,n_hours,missing_wind,ws_mean,ws_max,ws_p95,temp_min,temp_max
+17052,KIRKLARELİ,91,0,2.6,5.9,4.5,0.4,24.7
+17069,SAKARYA,96,0,1.9,4.5,4.1,3.1,31.7
+17112,ÇANAKKALE,96,0,4.0,9.0,7.6,3.5,23.2
+17636,FLORYA,96,0,1.4,4.3,3.7,2.3,24.9
+17637,BOLU DAĞI,96,0,2.2,5.4,4.4,-0.2,26.3

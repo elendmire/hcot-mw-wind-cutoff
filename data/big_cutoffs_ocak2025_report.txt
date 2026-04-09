@@ -1,0 +1,53 @@
+======================================================================
+🌬️  OCAK 2025 RES HARD CUT-OFF ANALİZ RAPORU
+======================================================================
+Analiz Tarihi: 2025-12-27 19:09
+Veri Kaynağı: EPİAŞ Şeffaflık Platformu
+Kriter: >50 MW rüzgar üretiminden >%80 düşüş, <10 MW son değer
+
+──────────────────────────────────────────────────
+ÖZET İSTATİSTİKLER
+──────────────────────────────────────────────────
+Toplam Cut-off Olayı: 7
+Etkilenen RES Sayısı: 3
+Toplam Kayıp: 433 MW
+Ortalama Kayıp: 62 MW
+Maksimum Kayıp: 77 MW
+Tamamen Durma (→0 MW): 3 olay
+
+──────────────────────────────────────────────────
+TÜM CUT-OFF OLAYLARI
+──────────────────────────────────────────────────
+
+🔴 SAROS RES
+   2025-01-28 14:00: 77 → 0 MW (kayıp: 77 MW) →0
+
+🔴 KIYIKÖY RES
+   2025-01-14 23:00: 75 → 9 MW (kayıp: 66 MW) 
+
+🔴 SAROS RES
+   2025-01-28 09:00: 66 → 0 MW (kayıp: 66 MW) →0
+
+🔴 EVRENCİK RES
+   2025-01-04 08:00: 75 → 9 MW (kayıp: 65 MW) 
+
+🔴 SAROS RES
+   2025-01-26 07:00: 63 → 0 MW (kayıp: 63 MW) →0
+
+🔴 KIYIKÖY RES
+   2025-01-09 14:00: 57 → 8 MW (kayıp: 49 MW) 
+
+🔴 KIYIKÖY RES
+   2025-01-10 06:00: 54 → 7 MW (kayıp: 47 MW) 
+
+──────────────────────────────────────────────────
+RES BAZINDA ÖZET
+──────────────────────────────────────────────────
+SAROS RES
+   Olay: 3, Toplam: 205 MW, Max: 77 MW
+KIYIKÖY RES
+   Olay: 3, Toplam: 162 MW, Max: 66 MW
+EVRENCİK RES
+   Olay: 1, Toplam: 65 MW, Max: 65 MW
+
+======================================================================

@@ -1,0 +1,107 @@
+======================================================================
+🌬️  MART 2025 RES HARD CUT-OFF ANALİZ RAPORU
+======================================================================
+Analiz Tarihi: 2025-12-27 17:33
+Veri Kaynağı: EPİAŞ Şeffaflık Platformu
+Kriter: >50 MW üretimden >%80 düşüş
+
+──────────────────────────────────────────────────
+ÖZET İSTATİSTİKLER
+──────────────────────────────────────────────────
+Toplam Cut-off Olayı: 31
+Etkilenen RES Sayısı: 22
+Ortalama Düşüş: 70.6 MW
+Maksimum Düşüş: 109.1 MW
+Toplam Kayıp Üretim: 2187.6 MWh
+
+Tamamen Durma (→0 MW): 18 olay
+
+──────────────────────────────────────────────────
+FIRTINA GÜNLERİ (Çoklu Cut-off)
+──────────────────────────────────────────────────
+
+🌪️ 2025-03-16
+   Cut-off sayısı: 16.0
+   Toplam düşüş: 1213 MW
+   Etkilenen RES'ler:
+     - İSTANBUL RES: 109 → 0 MW →0
+     - TATLIPINAR RES: 111 → 7 MW 
+     - GÜLPINAR RES: 98 → 0 MW →0
+     - EVRENCİK RES: 97 → 9 MW 
+     - ÜÇPINAR RES: 87 → 0 MW →0
+
+🌪️ 2025-03-28
+   Cut-off sayısı: 5.0
+   Toplam düşüş: 334 MW
+   Etkilenen RES'ler:
+     - VİZE-2 RES: 88 → 16 MW 
+     - KUŞADASI RES: 75 → 7 MW 
+     - İSTANBUL RES: 78 → 13 MW 
+     - KIYIKÖY RES: 73 → 8 MW 
+     - ÖMERLİ RES(BETİM): 68 → 4 MW →0
+
+🌪️ 2025-03-31
+   Cut-off sayısı: 4.0
+   Toplam düşüş: 241 MW
+   Etkilenen RES'ler:
+     - KOCATEPE RES(İzdem): 72 → 0 MW →0
+     - KUŞADASI RES: 66 → 6 MW 
+     - DENİZLİ RES: 58 → 0 MW →0
+     - OVACIK RES: 51 → 0 MW →0
+
+──────────────────────────────────────────────────
+EN BÜYÜK CUT-OFF OLAYLARI (Top 10)
+──────────────────────────────────────────────────
+ 1. 🟡 GÜLPINAR RES
+     2025-03-27 08:00: 118 → 9 MW (düşüş: 109 MW)
+ 2. 🔴 İSTANBUL RES
+     2025-03-16 11:00: 109 → 0 MW (düşüş: 109 MW)
+ 3. 🟡 TATLIPINAR RES
+     2025-03-16 10:00: 111 → 7 MW (düşüş: 104 MW)
+ 4. 🔴 GÜLPINAR RES
+     2025-03-16 10:00: 98 → 0 MW (düşüş: 98 MW)
+ 5. 🟡 EVRENCİK RES
+     2025-03-16 22:00: 97 → 9 MW (düşüş: 89 MW)
+ 6. 🔴 ÜÇPINAR RES
+     2025-03-16 11:00: 87 → 0 MW (düşüş: 87 MW)
+ 7. 🔴 EVRENCİK RES
+     2025-03-16 10:00: 81 → 0 MW (düşüş: 81 MW)
+ 8. 🔴 TAŞPINAR RES(GALATA WİND)
+     2025-03-16 11:00: 77 → 0 MW (düşüş: 77 MW)
+ 9. 🔴 GÖKTEPE RES
+     2025-03-16 11:00: 76 → 0 MW (düşüş: 76 MW)
+10. 🟡 SAROS RES
+     2025-03-16 10:00: 87 → 13 MW (düşüş: 74 MW)
+
+──────────────────────────────────────────────────
+SAATLİK DAĞILIM
+──────────────────────────────────────────────────
+En yoğun saat: 11:00 (9 olay)
+
+──────────────────────────────────────────────────
+EN ÇOK ETKİLENEN RES'LER
+──────────────────────────────────────────────────
+GÜLPINAR RES
+   Olay: 3, Toplam: 260 MW, Max: 109 MW
+KIYIKÖY RES
+   Olay: 3, Toplam: 180 MW, Max: 65 MW
+İSTANBUL RES
+   Olay: 2, Toplam: 174 MW, Max: 109 MW
+EVRENCİK RES
+   Olay: 2, Toplam: 170 MW, Max: 89 MW
+VİZE-2 RES
+   Olay: 2, Toplam: 131 MW, Max: 72 MW
+KUŞADASI RES
+   Olay: 2, Toplam: 129 MW, Max: 68 MW
+GÖKTEPE RES
+   Olay: 2, Toplam: 127 MW, Max: 76 MW
+TATLIPINAR RES
+   Olay: 1, Toplam: 104 MW, Max: 104 MW
+ÜÇPINAR RES
+   Olay: 1, Toplam: 87 MW, Max: 87 MW
+TAŞPINAR RES(GALATA WİND)
+   Olay: 1, Toplam: 77 MW, Max: 77 MW
+
+======================================================================
+NOT: Bu veriler MGM rüzgar hızı verileriyle karşılaştırılmalıdır.
+======================================================================

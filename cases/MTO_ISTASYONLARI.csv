@@ -1,0 +1,33 @@
+﻿# METEOROLOJI ISTASYONLARI - RES ESLESMESI
+# Kaynak: https://teknolojikkazalar.org/list/weather_station
+# Organizasyon: DMI (Devlet Meteoroloji Isleri)
+"# Tip Kodlari: B=Bolge, S=Sinoptik, M=Meydan, T2=Otomatik"
+
+Istasyon_No,Istasyon_Adi,Kod,Enlem,Boylam,Tip,Organizasyon,Il,Yakin_RES,Yakinlik_Sirasi
+17090,Sivas Bölge,SIVS,39° 45' N,37° 01' E,"B, S",DMİ,Sivas,KANGAL RES,1
+17874,Kangal,KNGL,39° 14' N,37° 23' E,B,DMİ,Sivas,KANGAL RES,2
+17802,Şarkışla,SRKS,39° 21' N,36° 24' E,B,DMİ,Sivas,KANGAL RES,3
+17112,Çanakkale,CNKL,40° 08' N,26° 24' E,"B, S",DMİ,Çanakkale,"GÜLPINAR RES, SAROS RES",1
+17110,Gökçeada,GKCD,40° 12' N,25° 54' E,"B, S",DMİ,Çanakkale,"GÜLPINAR RES, SAROS RES",2
+17111,Bozcaada,BZCD,39° 50' N,26° 04' E,B,DMİ,Çanakkale,"GÜLPINAR RES, SAROS RES",3
+17059,Çatalca,CTLC,41° 09' N,28° 28' E,B,DMİ,İstanbul,"İSTANBUL RES, TAŞPINAR RES",1
+17637,Silivri,SLVR,41° 05' N,28° 15' E,B,DMİ,İstanbul,"İSTANBUL RES, TAŞPINAR RES",2
+17636,Florya Meydan,LTFJ,40° 59' N,28° 47' E,"M, S",DMİ,İstanbul,"İSTANBUL RES, TAŞPINAR RES",3
+17152,Balıkesir Bölge,BLKS,39° 39' N,27° 52' E,"B, S",DMİ,Balıkesir,"TATLIPINAR RES, ÜÇPINAR RES",1
+17114,Bandırma,BAND,40° 19' N,27° 59' E,"B, T2",DMİ,Balıkesir,"TATLIPINAR RES, ÜÇPINAR RES",2
+17145,Edremit,EDRM,39° 36' N,27° 01' E,"B, S, T2",DMİ,Balıkesir,"TATLIPINAR RES, ÜÇPINAR RES",3
+17052,Kırklareli,KRKL,41° 44' N,27° 13' E,"B, S",DMİ,Kırklareli,EVRENCİK RES,1
+17632,Lüleburgaz,LULB,41° 24' N,27° 21' E,B,DMİ,Kırklareli,EVRENCİK RES,2
+17050,Edirne,EDRN,41° 40' N,26° 33' E,"B, S",DMİ,Kırklareli,EVRENCİK RES,3
+17186,Manisa,MNIS,38° 37' N,27° 26' E,"B, S",DMİ,Manisa,BAĞLAR RES,1
+17184,Akhisar,AKHS,38° 55' N,27° 50' E,B,DMİ,Manisa,BAĞLAR RES,2
+17792,Salihli,SLHL,38° 29' N,28° 08' E,B,DMİ,Manisa,BAĞLAR RES,3
+17119,Yalova,YALV,40° 40' N,29° 17' E,B,DMİ,Yalova,GÖKTEPE RES,1
+17116,Bursa Bölge,BURS,40° 14' N,29° 01' E,"B, S",DMİ,Yalova,GÖKTEPE RES,2
+17066,Kocaeli,KCAL,40° 46' N,29° 55' E,"B, S",DMİ,Yalova,GÖKTEPE RES,3
+17069,Adapazarı,ADPZ,40° 45' N,30° 24' E,"B, S",DMİ,Sakarya,ZONGULDAK RES,1
+17692,Geyve,GEYV,40° 31' N,30° 18' E,B,DMİ,Sakarya,ZONGULDAK RES,2
+17066,Kocaeli,KCAL,40° 46' N,29° 55' E,"B, S",DMİ,Sakarya,ZONGULDAK RES,3
+17702,Bozüyük,BOZY,39° 55' N,30° 02' E,"B, T2",DMİ,Bilecik,BOZÜYÜK RES,1
+17120,Bilecik,BILC,40° 09' N,29° 59' E,"B, S, T2",DMİ,Bilecik,BOZÜYÜK RES,2
+17124,Eskişehir Meydan,LTBY,39° 47' N,30° 35' E,"M, S",DMİ,Bilecik,BOZÜYÜK RES,3
