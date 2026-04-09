@@ -1,0 +1,28 @@
+dataset,variable,total_records,missing_count,missing_pct,dtype
+Cutoff Events,month,78,0,0.0,object
+Cutoff Events,plant,78,0,0.0,object
+Cutoff Events,datetime,78,0,0.0,"datetime64[ns, UTC]"
+Cutoff Events,prev,78,0,0.0,float64
+Cutoff Events,curr,78,0,0.0,float64
+Cutoff Events,drop,78,0,0.0,float64
+Cutoff Events,drop_pct,78,0,0.0,float64
+Cutoff Events,month_dt,78,0,0.0,period[M]
+Canakkale RES,province,55722,0,0.0,object
+Canakkale RES,plant_id,55722,0,0.0,int64
+Canakkale RES,plant_name,55722,0,0.0,object
+Canakkale RES,eic,55722,0,0.0,object
+Canakkale RES,datetime,55722,0,0.0,"datetime64[ns, UTC]"
+Canakkale RES,hour,55722,0,0.0,object
+Canakkale RES,generation_mwh,55722,0,0.0,float64
+Canakkale RES,source_endpoint,55722,0,0.0,object
+Canakkale RES,pulled_at,55722,0,0.0,object
+MGM Observations,Istasyon_No,475,0,0.0,int64
+MGM Observations,Istasyon_Adi,475,0,0.0,object
+MGM Observations,datetime_utc,475,0,0.0,object
+MGM Observations,datetime_local,475,0,0.0,object
+MGM Observations,wind_dir,475,0,0.0,float64
+MGM Observations,wind_speed,475,0,0.0,float64
+MGM Observations,temp,475,1,0.21,float64
+MGM Observations,pressure,475,96,20.21,float64
+MGM Observations,humidity,475,14,2.95,float64
+MGM Observations,precip,475,33,6.95,float64

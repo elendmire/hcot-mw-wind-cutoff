@@ -1,0 +1,5 @@
+variable,n,mean,std,min,max,iqr_outliers,zscore_outliers_3sigma,iqr_outlier_pct
+drop,78,63.231,16.496,41.6,120.7,4,1,5.13
+prev,78,67.24,15.532,50.6,120.7,4,2,5.13
+curr,78,4.009,3.777,0.0,9.86,0,0,0.0
+generation_mwh,55722,20.092,28.734,0.0,169.82,4858,1657,8.72

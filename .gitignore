@@ -1,0 +1,45 @@
+# Credentials
+.env
+.tgt_cache.json
+*.cdsapirc
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Data (large files — keep scripts, not raw data)
+data/generation_*.csv
+data/ptf_*.csv
+data/epias_fetch.log
+era5_data/
+era5_grib/
+
+# WRF output (large binary files)
+wrf/wrfout_*
+wrf/wrfinput_*
+wrf/wrfbdy_*
+wrf/met_em.*
+wrf/ERA5:*
+wrf/GRIBFILE.*
+wrf/geo_em.d0*.nc
+
+# IDE / OS
+.DS_Store
+.vscode/
+.cursor/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Large figures not tracked
+Figure_2.png
+
+# Excel/raw MGM files (large)
+*.xlsx

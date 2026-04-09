@@ -1,0 +1,6 @@
+synoptic_class,synoptic_label,n_events,mean_loss_mw,total_loss_mw,affected_plants
+1,Cold_Front_Thrace,36,63.18833333333334,2274.78,15
+3,Mediterranean_Low,21,58.49619047619048,1228.42,16
+4,Blocking_Anticyclone,12,63.31916666666667,759.83,8
+2,Bora_Channel_Flow,8,68.53125,548.25,3
+0,Cyclone_NW_Turkey,1,120.7,120.7,1

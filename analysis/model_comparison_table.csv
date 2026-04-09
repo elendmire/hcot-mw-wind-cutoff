@@ -1,0 +1,5 @@
+Model,ROC-AUC,Brier Score,F1,Type,Notes
+Persistence,0.500,0.088,0.032,Rule-based,Previous hour flag
+ARIMA,0.612,0.076,0.115,Statistical,SARIMA(1,1,1)(1,1,1)_24
+XGBoost,0.859,0.001,0.058,Ensemble ML,n_estimators=300; scale_pos_weight adjusted
+TFT,0.847,0.038,0.461,Deep Learning,Architecture designed; full training pending extended dataset

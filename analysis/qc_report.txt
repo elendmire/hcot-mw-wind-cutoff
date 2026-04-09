@@ -1,0 +1,31 @@
+DATA QUALITY CONTROL REPORT
+============================================================
+Generated: 2026-04-09 15:40
+
+1. CUTOFF EVENTS (EPİAŞ Oct 2024 - Apr 2025)
+   Total events: 78
+   Wind farms affected: 31
+   Date range: 2024-10-06 22:00:00+00:00 → 2025-04-30 15:00:00+00:00
+   Missing values: 0.0% max
+
+2. CANAKKALE RES HOURLY DATA
+   Total rows: 55722
+   Plants: 14
+   Date range: 2025-08-31 21:00:00+00:00 → 2026-02-10 20:00:00+00:00
+   Temporal coverage: 100.0%
+   Gaps detected: 0
+
+3. MGM SURFACE OBSERVATIONS (15-18 March 2025)
+   Total rows: 475
+   Columns: Istasyon_No, Istasyon_Adi, datetime_utc, datetime_local, wind_dir, wind_speed, temp, pressure
+   Missing max: 20.2%
+
+QC SUMMARY
+============================================================
+All tables saved to: analysis/qc_tables/
+  - qc_missing_values.csv
+  - qc_outliers.csv
+  - cutoff_descriptive_stats.csv
+  - cutoff_monthly_summary.csv
+
+STATUS: QC COMPLETE
