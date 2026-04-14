@@ -210,7 +210,7 @@ The Weather Research and Forecasting (WRF) model version 4.x is used for high-re
 
 #### 2.5.2 Domain Configuration
 
-A single-domain configuration is used with a horizontal grid spacing of 3 km (dx = dy = 3000 m), covering northwestern Turkey including the Thrace, Marmara, and northern Aegean regions where the majority of cut-off events were concentrated. The domain is centered approximately on the Marmara region (40.5°N, 28°E). At 3-km resolution, convective processes are explicitly resolved and cumulus parameterization is turned off. The time step is set to 18 s.
+A two-way nested two-domain configuration is used. The outer domain (d01) has a horizontal grid spacing of 9 km (e_we = 181, e_sn = 151), covering Turkey, the Balkans, and the eastern Mediterranean, centred at 40°N, 28°E with Lambert conformal projection (true latitudes 36°N and 44°N). The inner domain (d02) has 3 km grid spacing (e_we = 241, e_sn = 181), covering the Thrace, Marmara, and northern Aegean wind corridors where cut-off events are concentrated. The nesting ratio is 1:3 and the feedback option is enabled (two-way nesting). At 3-km resolution, convective processes are explicitly resolved and cumulus parameterization is turned off. The time step for d01 is 54 s; d02 uses a 1:3 ratio (18 s). Both domains use 51 vertical levels (e_vert = 51) with enhanced resolution in the planetary boundary layer.
 
 #### 2.5.3 Physics Parameterizations
 
