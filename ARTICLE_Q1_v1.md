@@ -19,9 +19,9 @@ Extreme wind events triggering automatic turbine shutdowns pose a growing operat
 
 ## Özet
 
-Aşırı rüzgar olayları, hızlar türbin kesme eşiklerini (genellikle 23–25 m/s) aştığında otomatik kapanmayı tetikleyerek yüksek rüzgar gücü payına sahip şebekelerde ani üretim kayıplarına neden olmaktadır (Archer et al., 2020; Panteli et al., 2017). Bu çalışmada, lisanslı Türkiye rüzgar santrallerinde bu tür "sert kesinti" olaylarının tespiti ve analizi için veri odaklı bir yöntem sunulmaktadır. EPİAŞ Şeffaflık Platformu saatlik gerçek zamanlı üretim verileri (Ekim 2024–Nisan 2025, YEKDEM kapsamında ~190 santral) kullanılarak kesinti olayları, yüksek çıktıdan (>50 MW) sıfıra yakın (<10 MW) düzeye bir saat içinde ani (>%80) düşüş olarak tanımlanmış; böylece doğrudan rüzgar ölçümüne bağımlılık ortadan kaldırılmıştır. 30 santralde toplam 78 olay tespit edilmiş, kümülatif üretim kaybı 4.931 MW olarak hesaplanmıştır. Mart 2025 en yoğun ay (26 olay, 1.856 MW kayıp), 16 Mart 2025 ise 15 eşzamanlı kesinti ile en ağır tek gün olmuş; Trakya, özellikle KIYIKÖY RES (18 olay, 943 MW kayıp) en çok etkilenen bölge olarak öne çıkmıştır. Meteorolojik bağlam için 15–18 Mart 2025 fırtına dönemine ait beş MGM istasyonundan saatlik yüzey gözlemleri ile dokuz temsili vaka için WRF mezoskal simülasyonları gerçekleştirilmiştir (Skamarock et al., 2019). WRF 10-m rüzgar hızları MGM gözlemleriyle doğrulanmış; istasyon bazında RMSE değerleri 1,96–5,45 m/s, korelasyon katsayıları ise −0,68 ile 0,68 arasında bulunmuştur. Sistematik pozitif sapma, model ızgara noktalarının rüzgar santrallerine özgü açık ve yüksek arazi koşullarını temsil etmesinden kaynaklanmaktadır. İşletme üretim verisi, yüzey meteorolojik gözlemleri ve mezoskal modellemenin birlikte kullanımı, kesinti olaylarının karakterizasyonu, risk değerlendirmesi, türbin seçimi ve erken uyarı araçlarının geliştirilmesi açısından etkili bulunmuştur. Önerilen çerçeve, önemli yenilenebilir enerji entegrasyonuna sahip diğer bölgelere de uygulanabilir niteliktedir ve aşırı rüzgar risklerinin izlenmesi için ölçeklenebilir bir yaklaşım sunmaktadır.
+Aşırı rüzgar olayları, hızlar türbin kesme eşiklerini (genellikle 23–25 m/s) aştığında otomatik kapanmayı tetikleyerek yüksek rüzgar gücü payına sahip şebekelerde ani üretim kayıplarına neden olmaktadır (Archer et al., 2020; Panteli et al., 2017). Bu çalışmada, lisanslı Türkiye rüzgar santrallerinde bu tür "sert kesinti" olaylarının tespiti, analizi ve erken uyarısı için kapsamlı bir çerçeve sunulmaktadır. EPİAŞ Şeffaflık Platformu'ndan elde edilen üç yıllık saatlik üretim verileri (Ocak 2022–Nisan 2025, 161 aktif santral) kullanılarak, kesinti olayları yüksek çıktıdan (>50 MW) sıfıra yakın (<10 MW) düzeye bir saat içinde ani (>%80) düşüş olarak tanımlanmıştır. Algoritma üç yıllık veri setine uygulandığında 43 santralde toplam 249 olay tespit edilmiş, kümülatif enerji kaybı 16.121 MWh olarak hesaplanmıştır. Ekonomik etki, gerçek EPİAŞ saatlik PTF fiyatları kullanılarak ölçülmüş; toplam doğrudan piyasa gelir kaybı 39 milyon TL (yaklaşık 1,60 milyon USD) olarak belirlenmiştir. Meteorolojik bağlam sağlamak amacıyla temsili vakalar için ERA5 yeniden analiz verileriyle beslenen WRF mezoskal simülasyonları gerçekleştirilmiştir (Skamarock et al., 2019). Sızdırmazlık tasarımıyla geliştirilen XGBoost erken uyarı modeli, 6-, 12- ve 24-saatlik öngörü ufuklarında sırasıyla 0,585, 0,571 ve 0,549 ROC-AUC değerlerine ulaşmıştır. Çerçeve tamamen tekrarlanabilir nitelikte olup yüksek yenilenebilir enerji entegrasyonuna sahip diğer şebekelere de uygulanabilir.
 
-**Anahtar kelimeler:** rüzgar gücü, kesinti olayları, aşırı rüzgar, WRF, Türkiye
+**Anahtar kelimeler:** rüzgar gücü, kesinti olayları, aşırı rüzgar, XGBoost, WRF, Türkiye, EPİAŞ
 
 ---
 
@@ -82,10 +82,10 @@ Despite the growing importance of wind power in Turkey's energy mix, systematic 
 This study addresses the identified research gaps through a combined data-driven, observational, and numerical modeling approach. The specific objectives are:
 
 1. **Develop a detection algorithm** for identifying hard cut-off events from hourly real-time generation data, using threshold-based criteria that distinguish high-wind shutdowns from other causes of production variability.
-2. **Characterize the frequency, severity, and spatiotemporal patterns** of cut-off events across Turkey's licensed wind fleet over a seven-month study period (October 2024 – April 2025).
+2. **Characterize the frequency, severity, and spatiotemporal patterns** of cut-off events across Turkey's licensed wind fleet over a three-year study period (January 2022–April 2025).
 3. **Identify the most vulnerable wind farms and regions** based on event frequency, cumulative production losses, and geographic clustering.
-4. **Acquire and analyze hourly surface meteorological observations** from the Turkish State Meteorological Service (MGM) for the most active storm period (15–18 March 2025) to provide direct observational context for the detected cut-off events.
-5. **Configure and execute WRF simulations** for selected cases and validate simulated 10-m wind fields against MGM surface observations.
+4. **Quantify the direct economic impact** of detected cut-off events using actual market clearing prices (PTF) from the EPİAŞ Transparency Platform.
+5. **Configure and execute WRF mesoscale simulations** for representative cut-off cases, using ERA5 reanalysis as boundary conditions, to provide synoptic context for extreme wind dynamics at hub height.
 6. **Develop and evaluate a leakage-free early warning model** using gradient boosting (XGBoost) to predict cut-off events at 6-, 12-, and 24-hour lead times from historical generation data, establishing a reproducible baseline for operational forecasting.
 7. **Provide actionable insights** for wind farm operators, grid operators, and policymakers on managing extreme wind risks in Turkey's evolving power system.
 
@@ -116,41 +116,9 @@ Hourly generation data for all licensed wind power plants are obtained from the 
 
 Wind farm locations and capacities are compiled from the EPİAŞ powerplant list API, public project documentation, EIA reports, and GIS databases. Key attributes: plant name, UEVCB code, installed capacity (MW), coordinates, province/district, and number of turbines (if available).
 
-#### 2.2.3 MGM Surface Meteorological Observations
+#### 2.2.3 ERA5 Reanalysis
 
-Hourly surface meteorological observations were obtained from the Turkish State Meteorological Service (MGM) for the 15–18 March 2025 storm period. Five synoptic/automatic stations were selected based on proximity to the most active wind farm locations (Table 1). The dataset comprises five variables: wind direction (°) and speed (m/s), air temperature (°C), station pressure (hPa), relative humidity (%), and hourly precipitation (mm). All timestamps are in UTC; local time (UTC+3) is used in figures for readability. Data were delivered in Excel format and processed using custom Python scripts (pandas, openpyxl). After removing metadata rows, the cleaned dataset contains 475 hourly records across all stations and variables.
-
-*Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
-
-**Table 1.** MGM stations used for storm period observation and WRF validation.
-
-
-| Station No. | Station Name        | Province   | Matched Wind Farm       | Hours Available | Distance to Farm (km) |
-| ----------- | ------------------- | ---------- | ----------------------- | --------------- | --------------------- |
-| 17052       | Kırklareli          | Kırklareli | EVRENCİK RES            | 91              | ~20                   |
-| 17069       | Sakarya (Adapazarı) | Sakarya    | ZONGULDAK RES           | 96              | ~25                   |
-| 17112       | Çanakkale           | Çanakkale  | GÜLPINAR RES            | 96              | ~40                   |
-| 17636       | Florya              | İstanbul   | İSTANBUL / TAŞPINAR RES | 96              | ~10–15                |
-| 17637       | Bolu Dağı           | Bolu       | Reference (inland)      | 96              | —                     |
-
-
-#### 2.2.4 MGM Station Summary Statistics
-
-Table 2 summarizes the key meteorological statistics observed at each MGM station during the 15–18 March 2025 storm period. The surface-level wind speeds (10-m height) recorded at MGM stations are substantially lower than hub-height winds at adjacent wind farms, which is expected given the logarithmic wind profile and the elevated, exposed locations of turbine sites compared to sheltered station environments.
-
-*Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
-
-**Table 2.** Summary statistics of MGM station observations (15–18 March 2025).
-
-
-| Station            | Wind Mean (m/s) | Wind Max (m/s) | Temp Mean (°C) | Temp Range (°C) | Pressure Mean (hPa) | Humidity Mean (%) | Precip Total (mm) |
-| ------------------ | --------------- | -------------- | -------------- | --------------- | ------------------- | ----------------- | ----------------- |
-| Kırklareli (17052) | 2.57            | 5.9            | 12.3           | 0.4–24.7        | 986.5               | 62.5              | 23.2              |
-| Sakarya (17069)    | 1.91            | 4.5            | 17.0           | 3.1–31.7        | 1010.4              | 58.4              | 4.2               |
-| Çanakkale (17112)  | 3.97            | 9.0            | 13.9           | 3.5–23.2        | 1013.3              | 68.4              | 0.2               |
-| Florya (17636)     | 1.40            | 4.3            | 14.4           | 2.3–24.9        | 1009.4              | 69.3              | 6.8               |
-| Bolu Dağı (17637)  | 2.18            | 5.4            | 12.7           | −0.2–26.3       | —                   | 59.4              | 15.0              |
-
+ERA5 global atmospheric reanalysis data (ECMWF, 0.25° × 0.25° horizontal resolution, hourly) are used as initial and lateral boundary conditions for the WRF simulations and as supplementary synoptic context for detected cut-off events. Variables retrieved include 10-m and 100-m wind speed and direction, mean sea level pressure (MSLP), 2-m temperature, and relative humidity, for the period January 2022–April 2025. Data are obtained via the Copernicus Climate Data Store (CDS) API using the `cdsapi` Python library.
 
 ### 2.3 Hard Cut-off Detection Methodology
 
@@ -204,7 +172,7 @@ From the full dataset of detected cut-off events, nine case studies were selecte
 
 *Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
 
-**Table 3.** Selected case studies for WRF simulation and MGM observation analysis.
+**Table 1.** Selected case studies for WRF simulation (16 March 2025 storm event).
 
 
 | Case ID | Wind Farm      | Province   | Event Date | Event Hour (UTC) | Loss (MW) |
@@ -220,7 +188,7 @@ From the full dataset of detected cut-off events, nine case studies were selecte
 | CASE_14 | ZONGULDAK RES  | Sakarya    | 2025-03-16 | 11:00            | 74        |
 
 
-The nine cases concentrate on 16 March 2025, the single most severe day with 15 simultaneous cut-offs across different plants. Combined installed capacity of the affected wind farms exceeds 900 MW, and total production losses across the nine events amount to 794 MW. The MGM observation period (15–18 March) covers both the pre-storm build-up and the post-event recovery, providing continuous meteorological context.
+The nine cases concentrate on 16 March 2025, the single most severe day with 15 simultaneous cut-offs across different plants. Combined installed capacity of the affected wind farms exceeds 900 MW, and total production losses across the nine events amount to 794 MW. ERA5 reanalysis and WRF output cover the 15–18 March period, providing pre-storm build-up and post-event recovery context.
 
 ### 2.5 WRF Model Configuration
 
@@ -236,7 +204,7 @@ A single-domain configuration is used with a horizontal grid spacing of 3 km (dx
 
 *Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
 
-**Table 4.** WRF physics parameterization options (CONUS physics suite).
+**Table 2.** WRF physics parameterization options (CONUS physics suite).
 
 
 | Parameter          | Value         | Scheme            | Description                                                           |
@@ -261,57 +229,25 @@ Initial and lateral boundary conditions are derived from ERA5 reanalysis (ECMWF)
 
 For the 16 March 2025 storm event, a 38-hour simulation was performed starting from 15 March 2025 00:00 UTC, with a 12-hour spin-up period. Output is saved hourly and includes 10-m wind speed and direction, 100-m wind speed, 2-m temperature, surface pressure, and accumulated precipitation.
 
-### 2.6 Model Validation Against MGM Observations
+### 2.6 Early Warning Model
 
-#### 2.6.1 Validation Strategy
-
-WRF 10-m wind speed output was compared with the concurrent hourly MGM surface observations at four matched station–farm pairs (Table 5). Since Bolu Dağı (17637) has no corresponding wind farm in the WRF simulation set, it serves as a regional reference. The Kırklareli station (17052), nearest to EVRENCİK RES, was matched to the TATLIPINAR farm in the WRF output as the closest available proxy.
-
-#### 2.6.2 Error Metrics
-
-The following statistical metrics are computed for each station–farm pair:
-
-- **Bias**: $\text{Bias} = \frac{1}{N} \sum_{i=1}^{N} (M_i - O_i)$
-- **RMSE**: $\text{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (M_i - O_i)^2}$
-- **Pearson correlation (r)**: Linear association between model and observations.
-- **Index of Agreement (IOA)**: Bounded skill metric.
-
-#### 2.6.3 Validation Results
-
-*Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
-
-**Table 5.** WRF 10-m wind speed validation against MGM observations (15–16 March 2025).
-
-
-| MGM Station        | Matched Farm | N   | Bias (m/s) | RMSE (m/s) | r     |
-| ------------------ | ------------ | --- | ---------- | ---------- | ----- |
-| Çanakkale (17112)  | GULPINAR     | 38  | +4.80      | 5.31       | 0.68  |
-| Florya (17636)     | ISTANBUL     | 38  | +5.39      | 5.45       | 0.59  |
-| Sakarya (17069)    | ZONGULDAK    | 38  | +1.13      | 2.76       | −0.68 |
-| Kırklareli (17052) | TATLIPINAR   | 33  | +1.29      | 1.96       | 0.15  |
-
-
-The WRF model exhibits a positive bias relative to MGM surface observations at all four stations, which is expected given that model grid points represent conditions over elevated, exposed terrain characteristic of wind farm sites, whereas MGM stations are typically located in sheltered, lower-elevation settings. The WRF model shows lower RMSE at the Kırklareli and Sakarya stations (1.96 and 2.76 m/s, respectively), and the highest correlation at the Çanakkale station (r = 0.68). These biases should be interpreted with caution, as the comparison is between surface station measurements (10-m standard height, sheltered environment) and model grid-cell averages over complex terrain; they do not invalidate the model's skill at resolving mesoscale spatial patterns and temporal trends during extreme events.
-
-### 2.7 Early Warning Model
-
-#### 2.7.1 Problem Formulation
+#### 2.6.1 Problem Formulation
 
 The early warning task is defined as a binary classification problem: given the 24-hour generation history of a wind farm observed H hours before a potential event, predict whether a hard cut-off will occur within the next H hours. Three prediction horizons are evaluated: H = 6, 12, and 24 hours. This formulation reflects operational requirements—grid operators need actionable lead time to arrange reserve capacity or initiate demand-side response.
 
 A critical design constraint is the **strict exclusion of all data from the event period**: the feature window must end at t − H − 1, with no timestep at or after t − H included in either the feature computation or the model input. This prevents the common form of leakage in which rolling statistics computed through the event onset encode the very drop being predicted.
 
-#### 2.7.2 Window Construction
+#### 2.6.2 Window Construction
 
 For each confirmed cut-off event at timestamp t, a positive prediction window is constructed covering the 24 hourly timesteps [t − H − 24, t − H − 1]. The window ends exactly H + 1 hours before the event, ensuring no temporal overlap with the cut-off period. A minimum of H + 24 historical timesteps is required before t; events with insufficient history are excluded.
 
 Negative windows are sampled from periods where no cut-off event occurs within a ±48-hour safety margin around the window's final timestep. This conservative margin prevents near-miss contamination and ensures that negative examples genuinely represent normal operating conditions rather than pre-event build-ups. Negative windows are sampled at a 5:1 ratio relative to positive windows per plant.
 
-The resulting dataset for each horizon H contains approximately 1,386 windows (231 positive, 1,155 negative) across 34 wind farms. Table 6 summarizes the event counts per split.
+The resulting dataset for each horizon H contains approximately 1,386 windows (231 positive, 1,155 negative) across 34 wind farms. Table 3 summarizes the event counts per split.
 
 *Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
 
-**Table 6.** Window dataset composition by split and prediction horizon.
+**Table 3.** Window dataset composition by split and prediction horizon.
 
 
 | Split | Period              | H = 6h (pos/neg) | H = 12h (pos/neg) | H = 24h (pos/neg) |
@@ -321,11 +257,11 @@ The resulting dataset for each horizon H contains approximately 1,386 windows (2
 | Test  | Jan – Apr 2025      | 27 / 121         | 27 / 121          | 27 / 121          |
 
 
-#### 2.7.3 Feature Engineering
+#### 2.6.3 Feature Engineering
 
-All 23 features are computed exclusively from the 24-hour window, with no reference to data outside the window boundaries (Table 7). Features are divided into four categories: (i) generation statistics (mean, standard deviation, minimum, maximum, linear trend slope, R²), (ii) delta features (mean and standard deviation of hour-over-hour changes, maximum single-hour drop and rise), (iii) capacity proxy features (fraction of hours above 50 MW, longest consecutive above-50 MW streak, coefficient of variation, last-6-hour mean and standard deviation, final-value-to-mean ratio), and (iv) temporal and plant-level features (hour of day, month, season flags, and the plant's historical cut-off rate computed from the training period only).
+All 23 features are computed exclusively from the 24-hour window, with no reference to data outside the window boundaries (Table 4). Features are divided into four categories: (i) generation statistics (mean, standard deviation, minimum, maximum, linear trend slope, R²), (ii) delta features (mean and standard deviation of hour-over-hour changes, maximum single-hour drop and rise), (iii) capacity proxy features (fraction of hours above 50 MW, longest consecutive above-50 MW streak, coefficient of variation, last-6-hour mean and standard deviation, final-value-to-mean ratio), and (iv) temporal and plant-level features (hour of day, month, season flags, and the plant's historical cut-off rate computed from the training period only).
 
-**Table 7.** Feature descriptions for the early warning model (all computed from 24-hour window only).
+**Table 4.** Feature descriptions for the early warning model (all computed from 24-hour window only).
 
 
 | Feature                                | Description                                                                                                                                                                              |
@@ -349,7 +285,7 @@ All 23 features are computed exclusively from the 24-hour window, with no refere
 | `plant_hist_rate`                      | Historical cut-off rate (events per 1,000 h, train-derived)                                                                                                                              |
 
 
-#### 2.7.4 Model and Validation Protocol
+#### 2.6.4 Model and Validation Protocol
 
 XGBoost (Chen & Guestrin, 2016) is selected as the sole model for this phase, providing a strong, interpretable gradient-boosting baseline before deep learning alternatives are evaluated. Hyperparameters are: 500 trees, maximum depth 5, learning rate 0.03, subsample 0.8, column subsample 0.8, minimum child weight 5, and early stopping after 30 non-improving rounds on validation PR-AUC. Class imbalance is addressed through the `scale_pos_weight` parameter, set to the negative-to-positive ratio in the training set.
 
@@ -367,9 +303,9 @@ Over the three-year study period (January 2022–April 2025), the detection algo
 
 ### 3.2 Economic Impact Analysis
 
-Table 9 summarises the monetised impact of the 249 detected cut-off events, computed using actual hourly PTF market clearing prices obtained from the EPİAŞ Transparency Platform (100% price coverage). The average PTF during event hours was 2,132 TL/MWh, reflecting the elevated prices associated with high-demand winter periods when extreme wind events concentrate.
+Table 6 summarises the monetised impact of the 249 detected cut-off events, computed using actual hourly PTF market clearing prices obtained from the EPİAŞ Transparency Platform (100% price coverage). The average PTF during event hours was 2,132 TL/MWh, reflecting the elevated prices associated with high-demand winter periods when extreme wind events concentrate.
 
-**Table 9.** Economic impact of hard cut-off events (January 2022–April 2025). All monetary values based on actual EPİAŞ hourly PTF prices. Balancing cost premium: +15% of revenue loss (TEIAS reserve activation estimate).
+**Table 6.** Economic impact of hard cut-off events (January 2022–April 2025). All monetary values based on actual EPİAŞ hourly PTF prices. Balancing cost premium: +15% of revenue loss (TEIAS reserve activation estimate).
 
 
 | Metric                                   | Value       |
@@ -392,11 +328,11 @@ These figures represent direct market revenue losses only; they exclude indirect
 
 ### 3.3 Early Warning Model Performance
 
-Table 8 presents the XGBoost early warning model results on the held-out test set (January–April 2025) for each prediction horizon, using the threshold optimised on the 2024 validation set.
+Table 5 presents the XGBoost early warning model results on the held-out test set (January–April 2025) for each prediction horizon, using the threshold optimised on the 2024 validation set.
 
 *Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
 
-**Table 8.** XGBoost early warning model performance on the test set (January–April 2025, n = 148 windows, 27 positive events per horizon).
+**Table 5.** XGBoost early warning model performance on the test set (January–April 2025, n = 148 windows, 27 positive events per horizon).
 
 
 | Horizon  | ROC-AUC | PR-AUC | F1    | Precision | Recall | Brier | Threshold |
