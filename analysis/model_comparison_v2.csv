@@ -1,0 +1,4 @@
+H,ROC-AUC,PR-AUC,F1,Precision,Recall,Brier,Threshold,Test_pos,Test_total,Top_feature
+6,0.585,0.259,0.306,0.244,0.407,0.213,0.469,27,148,is_winter
+12,0.571,0.227,0.215,0.184,0.259,0.1829,0.4276,27,148,is_winter
+24,0.549,0.203,0.301,0.212,0.519,0.1997,0.4073,27,148,is_winter

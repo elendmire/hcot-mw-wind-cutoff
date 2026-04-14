@@ -10,14 +10,13 @@
 
 This repository contains the full analysis pipeline for the HCOT-MW framework, which systematically characterizes **hard cutoff events** in Turkey's licensed wind power fleet using data from the EPİAŞ Transparency Platform.
 
-**Key findings:**
+**Key findings (Jan 2022 – Apr 2025, leakage-free pipeline):**
 
-- **78 hard cutoff events** identified across 30 wind farms (Oct 2024 – Apr 2025)
-- **4,931 MW** cumulative production losses (~63 MW per event average)
-- **15.82 million TL** (≈ 458 thousand USD) total economic impact
-- **March 16, 2025**: 15 simultaneous shutdowns, 794 MW combined loss (peak storm event)
-- **KIYIKÖY RES** (Thrace): Most vulnerable plant (18 events; 943 MW; CVI = 0.83)
-- **XGBoost early warning classifier**: ROC-AUC = 0.859
+- **249 hard cutoff events** identified across 43 wind farms (3-year dataset)
+- **16,121 MWh** total energy lost (~64.7 MWh per event average)
+- **39.04 million TL / USD 1.60 million** total economic impact (actual PTF prices, 100% coverage)
+- **SAROS RES** (Thrace): Most economically impacted plant (37 events; USD 227 K)
+- **XGBoost early warning (leakage-free)**: ROC-AUC 0.549–0.585 at H=6/12/24h horizons
 
 ---
 
@@ -30,34 +29,40 @@ epias_wind_cutoff/
 ├── requirements.txt          ← Python dependencies
 │
 ├── # Core analysis scripts
-├── economic_impact.py         ← PTF × MW economic calculator
+├── run_economic_analysis.py   ← 3-year PTF × MW economic impact (249 events)
+├── run_sensitivity.py         ← Threshold sensitivity grid (125 combinations)
+├── export_model_probs.py      ← Extract test probabilities for ROC/PR curves
 ├── fetch_extended_data.py     ← EPİAŞ 2022-2025 extended data fetcher
 ├── era5_downloader.py         ← CDS API ERA5 downloader
-├── generate_figures.py        ← All 10 Q1-quality figures (300 DPI)
+├── generate_figures_v2.py     ← 7 Q1-quality figures (300 DPI, Wong CB palette)
 │
-├── # Detection infrastructure (pre-existing)
+├── # Detection infrastructure
 ├── epias_client.py            ← EPİAŞ Transparency API client
 ├── hard_cutoff_detector.py    ← Core detection algorithm
 ├── res_cutoff_scanner.py      ← Per-plant fleet scanner
 ├── fetch_res_plants.py        ← Plant list fetcher
 │
 ├── analysis/
-│   ├── data_qc.py             ← Comprehensive QC pipeline
-│   ├── synoptic_classifier.py ← ERA5 K-means synoptic classification
-│   ├── vulnerability_index.py ← Composite Vulnerability Index (CVI)
-│   ├── tft_early_warning.py   ← TFT + XGBoost early warning model
-│   ├── model_comparison_table.csv
-│   ├── vulnerability_index.csv
-│   ├── synoptic_classes.csv
-│   ├── economic_impact_*.csv
-│   └── qc_tables/
+│   ├── train_v2.py            ← Leakage-free XGBoost pipeline (H=6/12/24h)
+│   ├── audit_pipeline.py      ← Data leakage diagnostic (reference)
+│   ├── data_qc.py             ← QC pipeline
+│   ├── synoptic_classifier.py ← ERA5 K-means synoptic classification (pending)
+│   ├── vulnerability_index.py ← Composite Vulnerability Index (pending)
+│   ├── models/v2/             ← Saved XGBoost models + test probabilities
+│   ├── economic_impact_summary.csv
+│   ├── cutoff_events_with_losses.csv
+│   ├── sensitivity_table.csv
+│   └── sensitivity_report.txt
 │
-├── figures/                   ← 10 figures @ 300 DPI (280-683 KB each)
-│   ├── fig1_study_area_map.png
-│   ├── fig2_framework_diagram.png
-│   ├── fig3_cutoff_timeseries.png
-│   ├── fig4_heatmap_top_plants.png
-│   ├── fig5_synoptic_patterns.png  ← ERA5 MSLP + 100m wind
+├── figures/                   ← 7 figures @ 300 DPI (Wong CB-palette)
+│   ├── fig1_event_timeline.png
+│   ├── fig2_seasonal_heatmap.png
+│   ├── fig3_economic_impact.png
+│   ├── fig4_model_roc_pr.png
+│   ├── fig5_feature_importance.png
+│   ├── fig6_sensitivity_heatmap.png  ← Supplementary S2
+│   ├── fig7_event_magnitude_dist.png
+│   └── fig8_framework_schematic.png
 │   ├── fig6_vulnerability_map.png
 │   ├── fig7_wrf_validation.png
 │   ├── fig8_economic_impact.png

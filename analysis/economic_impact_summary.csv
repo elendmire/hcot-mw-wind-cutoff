@@ -1,11 +1,11 @@
-Metric,Value,Notes
-Total cutoff events,78,
-Total energy lost (MWh),4932,1 hour × MW drop per event
-Average loss per event (MWh),63.2,
-Total revenue loss (TL million),13.76,Based on estimated PTF rates
-Balancing cost premium (TL million),2.06,TEIAS reserve: +15.0% of revenue loss
-Total economic loss (TL million),15.82,
-Total economic loss (USD thousand),458.1,
-YEKDEM tariff basis loss (USD thousand),360.0,YEKDEM rate: 73.0 USD/MWh
-Study period,2024-10-06 22:00:00+00:00 to 2025-04-30 15:00:00+00:00,
-Wind farms affected,31,
+Metric,Value
+Total hard-cutoff events (Jan 2022–Apr 2025),249
+Unique wind plants affected,43
+Total energy lost (MWh),"16,121"
+Average energy lost per event (MWh),64.7
+Average PTF during events (TL/MWh),"2,132"
+Total revenue loss (TL million),33.95
+Grid balancing cost premium (TL million),5.09
+Total economic loss (TL million),39.04
+Total economic loss (USD thousand),1598.7
+YEKDEM tariff-basis loss (USD thousand),1176.8
