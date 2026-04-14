@@ -1,5 +1,3 @@
-
-
 # DETECTION AND ANALYSIS OF HIGH WIND SPEED CUT-OFF EVENTS IN TURKISH WIND POWER PLANTS USING REAL-TIME GENERATION DATA AND WRF SIMULATIONS
 
 **Ömer Faruk AVCI¹, Assoc. Prof. Elçin TAN²**
@@ -93,6 +91,12 @@ This study addresses the identified research gaps through a combined data-driven
 
 ## 2. DATA AND METHODS
 
+The overall pipeline is organised into three layers — data acquisition, event detection, and analysis/forecasting — as illustrated in Figure 2. The remainder of this section details each component.
+
+**[Figure 2 near here]**
+
+*Figure 2. HCOT-MW (Hard Cutoff Observatory for Turkish Wind Farms with Meteorological context and Warning) three-layer framework. Layer 1: data acquisition from EPİAŞ API and ERA5 reanalysis. Layer 2: threshold-based hard cut-off detector (249 events, 43 plants). Layer 3: economic quantification, spatial/temporal analysis, XGBoost early warning model, and WRF mesoscale simulation.*
+
 ### 2.1 Study Area
 
 The study covers the entire extent of Turkey's licensed wind power fleet, with particular focus on the northwestern regions where cut-off events are most frequent. The primary geographic areas of interest include:
@@ -104,7 +108,11 @@ The study covers the entire extent of Turkey's licensed wind power fleet, with p
 - **Çanakkale Peninsula**: Aegean-facing wind farms including Gülpınar and Saros areas
 - **Central Anatolia**: Selected high-altitude sites including Kangal in Sivas province
 
-The study area spans approximately 26°E to 38°E longitude and 38°N to 42°N latitude, encompassing diverse terrain from coastal lowlands to mountain ridges exceeding 1,500 m elevation.
+The study area spans approximately 26°E to 38°E longitude and 38°N to 42°N latitude, encompassing diverse terrain from coastal lowlands to mountain ridges exceeding 1,500 m elevation. Figure 1 shows the geographic distribution of all 161 licensed wind power plants coloured by cut-off event frequency, with bubble size proportional to the number of events recorded at each plant. The dashed rectangle marks the WRF simulation domain centred over the Thrace–Marmara–northern Aegean corridor.
+
+**[Figure 1 near here]**
+
+*Figure 1. Study area: licensed wind power plants in Turkey with hard cut-off event frequency (Jan 2022–Apr 2025). Bubble size and colour indicate number of events per plant. Dashed rectangle: WRF simulation domain (3 km resolution).*
 
 ### 2.2 Data Sources
 
@@ -128,7 +136,7 @@ A "hard cut-off" event is defined as a sudden transition from high power output 
 
 #### 2.3.2 Detection Algorithm
 
-The detection algorithm applies three simultaneous criteria to each hourly transition:
+The detection algorithm applies three simultaneous criteria to each hourly transition. Figure 3 illustrates the detection on a representative case — SAROS RES during winter 2024–25 — showing the full seasonal overview, a 14-day event cluster, and a single-event detail with the threshold lines annotated.
 
 1. **Pre-event production threshold**: The generation in the hour preceding the event must exceed 50 MW, indicating that the wind farm was operating at substantial capacity.
 2. **Post-event production threshold**: The generation in the event hour must fall below 10 MW, indicating near-complete shutdown.
@@ -141,6 +149,10 @@ $$
 where $P_{t-1}$ is the pre-event production and $P_t$ is the event-hour production.
 
 Events satisfying all three criteria are flagged as hard cut-offs. The algorithm is implemented in Python using the pandas library for time series manipulation.
+
+**[Figure 3 near here]**
+
+*Figure 3. Hard cut-off event detection exemplar: SAROS RES (Çanakkale), winter 2024–25. (a) Three-month overview with detected events (vertical lines); (b) 14-day event cluster; (c) single-event detail illustrating the abrupt production collapse, annotated with pre-event and event-hour generation values. Dashed lines: θ_high = 50 MW (orange) and θ_low = 10 MW (green).*
 
 #### 2.3.3 Threshold Selection Rationale
 
@@ -299,11 +311,29 @@ The findings are structured as follows: Section 3.1 presents the 3-year event st
 
 ### 3.1 Cut-off Event Statistics
 
-Over the three-year study period (January 2022–April 2025), the detection algorithm identified a total of 249 hard cut-off events across 43 wind farms, encompassing a total energy loss of 16,121 MWh. Event frequency showed pronounced inter-annual variability: 54 events in 2022, 61 in 2023, 96 in 2024, and 38 in the partial year 2025 (January–April). The year 2024 was the most active, with energy losses of 6,369 MWh. Seasonally, events are strongly concentrated in winter months (December–March), consistent with the dominance of cold-air outbreaks and Atlantic-Mediterranean storm tracks over Turkey during this season. The Thrace and Aegean coastal regions are the most frequently affected, with SAROS RES recording the highest exposure (37 events, 3,006 MWh cumulative loss).
+Over the three-year study period (January 2022–April 2025), the detection algorithm identified a total of 249 hard cut-off events across 43 wind farms, encompassing a total energy loss of 16,121 MWh. Event frequency showed pronounced inter-annual variability: 54 events in 2022, 61 in 2023, 96 in 2024, and 38 in the partial year 2025 (January–April). The year 2024 was the most active, with energy losses of 6,369 MWh.
+
+Figure 4 presents the temporal statistics of the event record. Seasonally, events are strongly concentrated in winter months (December–March), with 64% of all events occurring in DJF (Figure 4b), consistent with the dominance of cold-air outbreaks and Atlantic-Mediterranean storm tracks over Turkey during this season (Sulikowska & Wypych, 2021). The diurnal distribution (Figure 4c) shows a broad daytime maximum between 06:00 and 14:00 UTC, reflecting the preferential passage of synoptic systems through the Aegean–Marmara corridor during morning to early-afternoon hours.
+
+**[Figure 4 near here]**
+
+*Figure 4. Three-year hard cut-off event statistics (Jan 2022–Apr 2025, n = 249). (a) Monthly event counts (orange: DJF winter months) with cumulative overlay; (b) seasonal distribution by calendar month; (c) diurnal distribution (UTC).*
+
+Figure 5 illustrates the spatial vulnerability pattern. The Thrace and Aegean coastal regions are the most frequently affected, with SAROS RES recording the highest exposure (37 events, 3,006 MWh cumulative loss). Five of the top-ten most affected plants are located within 100 km of the Çanakkale–Kırklareli axis, where orographic channelling by the Thrace highlands amplifies north-easterly (Poyraz) and north-westerly storm flows to hub-height wind speeds exceeding cut-out thresholds.
+
+**[Figure 5 near here]**
+
+*Figure 5. Spatial vulnerability of Turkish wind farms to hard cut-off events (Jan 2022–Apr 2025). Left: provincial bubble map (bubble size ∝ event count, colour ∝ economic loss in USD); right: top 10 plants ranked by event frequency.*
+
+The March 2025 storm period was the most intense on record. Figure 6 shows the aggregate generation collapse and per-plant shutdown sequence across 14–18 March 2025. On 16 March alone, 15 simultaneous cut-offs were recorded across farms spanning Thrace, Marmara, and the northern Aegean (nine of these are listed as WRF case studies in Table 1). The aggregate capacity removed from the grid within a three-hour window exceeded 700 MW.
+
+**[Figure 6 near here]**
+
+*Figure 6. The 14–18 March 2025 extreme wind event. (a) Aggregate generation collapse across 12 affected plants; (b) per-plant generation heatmap (▼ = detected hard cut-off event). The 16 March 2025 peak (15 simultaneous cut-offs) is highlighted.*
 
 ### 3.2 Economic Impact Analysis
 
-Table 6 summarises the monetised impact of the 249 detected cut-off events, computed using actual hourly PTF market clearing prices obtained from the EPİAŞ Transparency Platform (100% price coverage). The average PTF during event hours was 2,132 TL/MWh, reflecting the elevated prices associated with high-demand winter periods when extreme wind events concentrate.
+Table 6 summarises the monetised impact of the 249 detected cut-off events, computed using actual hourly PTF market clearing prices obtained from the EPİAŞ Transparency Platform (100% price coverage). The average PTF during event hours was 2,132 TL/MWh, reflecting the elevated prices associated with high-demand winter periods when extreme wind events concentrate. Figure 7 disaggregates the economic impact by year, by plant, and compares the PTF distribution during event hours against all hours in the study period.
 
 **Table 6.** Economic impact of hard cut-off events (January 2022–April 2025). All monetary values based on actual EPİAŞ hourly PTF prices. Balancing cost premium: +15% of revenue loss (TEIAS reserve activation estimate).
 
@@ -326,9 +356,13 @@ The ten most economically affected plants account for 64% of total losses, with 
 
 These figures represent direct market revenue losses only; they exclude indirect costs such as grid imbalance penalties, reserve contracting overhead, reduced capacity factor guarantees, and turbine maintenance triggered by emergency shutdowns. Including these second-order costs would increase the aggregate impact by an estimated 20–40%.
 
+**[Figure 7 near here]**
+
+*Figure 7. Economic impact of hard cut-off events (Jan 2022–Apr 2025, n = 249). (a) Annual energy loss (GWh, bars) and economic loss (USD thousand, line); (b) top 10 plants by direct revenue loss; (c) PTF market price distribution: all hours (grey) versus event hours (orange). Event hours have a systematically higher median PTF, amplifying the financial impact of cut-offs.*
+
 ### 3.3 Early Warning Model Performance
 
-Table 5 presents the XGBoost early warning model results on the held-out test set (January–April 2025) for each prediction horizon, using the threshold optimised on the 2024 validation set.
+Table 5 presents the XGBoost early warning model results on the held-out test set (January–April 2025) for each prediction horizon, using the threshold optimised on the 2024 validation set. Figure 8 provides the full diagnostic suite: ROC and PR curves for all three horizons (panels a–b), per-horizon feature importance breakdown (panel c), and probability calibration (panel d).
 
 *Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
 
@@ -351,6 +385,10 @@ Feature importance analysis (Figure 5) reveals that the `is_winter` seasonal fla
 These results establish a rigorous baseline and carry two actionable implications. First, the non-trivial AUC (>0.55 at all horizons) confirms that generation history contains weak but genuine predictive signal, validating the event-definition approach. Second, the limited discriminative power of generation-only features provides quantitative evidence that meteorological predictors—particularly ERA5 100-m wind speed and mean sea level pressure—are necessary to achieve operationally useful early warning performance, motivating their inclusion in future model iterations.
 
 The test set contains only 27 positive windows (cutoff events occurring between January and April 2025), which limits the statistical precision of the reported metrics. This limitation is disclosed transparently; reported metrics should be interpreted as indicative rather than definitive, and evaluation on a larger future dataset is recommended.
+
+**[Figure 8 near here]**
+
+*Figure 8. XGBoost early warning model performance on the held-out test set (Jan–Apr 2025, n = 148 windows). (a) ROC curves for H = 6, 12, and 24 h; (b) PR curves (dashed: no-skill baseline); (c) feature importances by horizon (gain metric, top 15 features); (d) probability calibration curves. All metrics use the threshold optimised on the 2024 validation set.*
 
 ---
 
@@ -429,3 +467,29 @@ Web 2. Milliken, D. (2022, February 19). Over 150,000 British homes still withou
 Web 3. Electric Insights. (2024). Q4 2023 report: Great Britain power system statistics. Imperial College London & Drax Group. Retrieved [date].
 
 Web 4. Windpower Monthly. (2024, September 10). Rising contractor errors and defects behind two-thirds of offshore wind insurance claims – renewables insurer GCube. Retrieved [date].
+
+---
+
+## SUPPLEMENTARY MATERIAL
+
+### Supplementary Figure S1 — Feature importance per horizon (detailed)
+
+*(See `figures/Fig8_model_performance.png`, panel c)*
+
+### Supplementary Figure S2 — Threshold sensitivity heatmap
+
+The heatmap below shows the number of detected hard cut-off events across a grid of θ_high × θ_low parameter combinations, at fixed θ_drop = 80%. Results span 77 to 1,021 events across the 125 combinations; the baseline (θ_high = 50 MW, θ_low = 10 MW) is marked with a white border.
+
+*(See `figures/sensitivity_heatmap.png`)*
+
+### Supplementary Table S1 — Full event list
+
+The complete list of 249 detected hard cut-off events (timestamp, plant name, generation drop, PTF, economic loss) is provided as a machine-readable CSV file: `analysis/cutoff_events_with_losses.csv`.
+
+### Supplementary Material S3 — Python code
+
+All analysis code is archived in the GitHub repository: [https://github.com/farukavci/epias_wind_cutoff](https://github.com/farukavci/epias_wind_cutoff)
+
+### Supplementary Material S4 — WRF namelist
+
+WRF model configuration namelist for the two-domain setup: `wrf/namelist.input.2dom`.
