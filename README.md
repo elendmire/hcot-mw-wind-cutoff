@@ -147,7 +147,6 @@ python generate_figures.py
 | Source                      | Data                                      | Access                                                                                      |
 | --------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------- |
 | EPİAŞ Transparency Platform | Hourly YEKDEM wind generation, PTF prices | [https://seffaflik.epias.com.tr/](https://seffaflik.epias.com.tr/) (API, free registration) |
-| MGM (Turkish Met. Service)  | Surface observations (wind, T, P)         | [https://www.mgm.gov.tr/](https://www.mgm.gov.tr/) (on request)                             |
 | ERA5 (ECMWF/Copernicus)     | 100m wind, MSLP, T2m (0.25°, hourly)      | [https://cds.climate.copernicus.eu/](https://cds.climate.copernicus.eu/) (free API)         |
 | WRF Model                   | 3 km, 38h simulation, March 2025          | Output file: `faruk_wrfoutput_20250316`                                                     |
 
@@ -156,30 +155,30 @@ python generate_figures.py
 
 ## Key Results
 
-### Hard Cutoff Events (Oct 2024 – Apr 2025)
+### Hard Cutoff Events (Jan 2022 – Apr 2025, full 3-year dataset)
 
 
-| Month        | Events | Loss (MW) | Max Event (MW) |
-| ------------ | ------ | --------- | -------------- |
-| Oct 2024     | 8      | 495       | 89             |
-| Nov 2024     | 9      | 470       | 72             |
-| Dec 2024     | 15     | 970       | **121**        |
-| Jan 2025     | 7      | 433       | 77             |
-| Feb 2025     | 1      | 47        | 47             |
-| **Mar 2025** | **26** | **1,856** | 109            |
-| Apr 2025     | 12     | 661       | 74             |
-| **Total**    | **78** | **4,931** | —              |
+| Year          | Events | Energy Lost (MWh) | Economic Loss (USD K) |
+| ------------- | ------ | ----------------- | --------------------- |
+| 2022          | 54     | 3,372             | 576                   |
+| 2023          | 61     | 3,344             | 433                   |
+| 2024          | 96     | 6,369             | 470                   |
+| 2025 (Jan–Apr)| 38     | 3,036             | 119                   |
+| **Total**     | **249**| **16,121**        | **1,599**             |
+
+Top affected plant: **SAROS RES** — 37 events, ~3,006 MWh cumulative loss.
+Worst single day: **16 March 2025** — 14 simultaneous cut-offs.
+
+### Early Warning Model Performance (Leakage-free XGBoost v2)
 
 
-### Early Warning Model Comparison
+| Horizon | ROC-AUC | PR-AUC | F1    | Design                           |
+| ------- | ------- | ------ | ----- | -------------------------------- |
+| H = 6h  | 0.585   | 0.259  | 0.306 | Window ends at t−H−1, no leakage |
+| H = 12h | 0.571   | 0.227  | 0.215 | Window ends at t−H−1, no leakage |
+| H = 24h | 0.549   | 0.203  | 0.301 | Window ends at t−H−1, no leakage |
 
-
-| Model        | ROC-AUC   | Type          |
-| ------------ | --------- | ------------- |
-| Persistence  | 0.500     | Rule-based    |
-| ARIMA        | 0.612     | Statistical   |
-| XGBoost      | **0.859** | Ensemble ML   |
-| TFT (target) | ~0.847    | Deep Learning |
+*Note: Earlier versions of the pipeline reported inflated metrics (ROC-AUC > 0.99) due to data leakage. These results are the corrected, leakage-free baseline.*
 
 
 ---
@@ -192,4 +191,4 @@ python generate_figures.py
 
 ## License
 
-MIT License. Data from EPİAŞ, MGM, and ERA5 are subject to their respective terms of use.
+MIT License. Data from EPİAŞ and ERA5 are subject to their respective terms of use.

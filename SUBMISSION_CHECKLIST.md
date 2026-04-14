@@ -65,7 +65,7 @@
 - `analysis/audit_pipeline.py` — leakage audit (diagnostic)
 - `analysis/train_v2.py` — leakage-free XGBoost pipeline (H=6/12/24h)
 - `export_model_probs.py` — extract test probabilities for ROC/PR curves
-- `generate_figures_v2.py` — 7 Q1 figures (300 DPI)
+- `generate_figures_q1.py` — 8 Q1 figures (300 DPI, all in `figures/Fig*.png`)
 - `requirements.txt` — all dependencies
 - `analysis/economic_impact_summary.csv` — monetised impact table
 - `analysis/sensitivity_table.csv` + `sensitivity_report.txt`

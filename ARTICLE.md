@@ -9,7 +9,7 @@
 
 ## Abstract
 
-Extreme wind events triggering automatic turbine shutdowns pose a growing operational risk in grids with high wind penetration. This study presents a comprehensive framework for the detection, characterization, and prediction of hard cut-off events across Turkey's licensed wind fleet. Using three years of hourly real-time generation data from the EPİAŞ Transparency Platform (January 2022–April 2025, ~161 wind power plants), cut-off events are defined as abrupt (>80%) drops from high output (>50 MW) to near zero (<10 MW) within one hour. Applying this algorithm to the extended dataset identifies 264 events across 43 wind farms. The March 2025 storm period was the most intense on record, with 16 March 2025 seeing 15 simultaneous cut-offs; the Thrace region, notably KIYIKÖY RES, remained the most vulnerable area. WRF mesoscale simulations at 3-km resolution for nine representative events provide synoptic context for the extreme wind dynamics. An XGBoost early warning model was trained and evaluated using a strictly leakage-free design: prediction windows end H hours before each event, all features are derived exclusively from 24-hour history windows, and evaluation follows a temporal split (2022–2023 train / 2024 validation / January–April 2025 test). The model achieves ROC-AUC values of 0.585, 0.571, and 0.549 at 6-, 12-, and 24-hour horizons respectively, demonstrating that purely generation-based features provide limited but non-trivial predictive skill and motivating the inclusion of meteorological predictors. The framework is applicable to any wind-heavy grid and provides a reproducible baseline for further development of operational early warning systems.
+Extreme wind events triggering automatic turbine shutdowns pose a growing operational risk in grids with high wind penetration. This study presents a comprehensive framework for the detection, characterization, and prediction of hard cut-off events across Turkey's licensed wind fleet. Using three years of hourly real-time generation data from the EPİAŞ Transparency Platform (January 2022–April 2025, ~161 wind power plants), cut-off events are defined as abrupt (>80%) drops from high output (>50 MW) to near zero (<10 MW) within one hour. Applying this algorithm to the extended dataset identifies 249 events across 43 wind farms. The March 2025 storm period was the most intense on record, with 16 March 2025 seeing 14 simultaneous cut-offs; the Thrace–Aegean corridor, notably SAROS RES (37 events), recorded the highest cumulative exposure. WRF mesoscale simulations at 3-km resolution for nine representative events provide synoptic context for the extreme wind dynamics. An XGBoost early warning model was trained and evaluated using a strictly leakage-free design: prediction windows end H + 1 hours before each event (window end at t − H − 1), all features are derived exclusively from 24-hour history windows, and evaluation follows a temporal split (2022–2023 train / 2024 validation / January–April 2025 test). The model achieves ROC-AUC values of 0.585, 0.571, and 0.549 at 6-, 12-, and 24-hour horizons respectively, demonstrating that purely generation-based features provide limited but non-trivial predictive skill and motivating the inclusion of meteorological predictors. The framework is applicable to any wind-heavy grid and provides a reproducible baseline for further development of operational early warning systems.
 
 **Keywords:** wind power, cut-off events, extreme winds, early warning, XGBoost, WRF, Turkey, EPİAŞ
 
@@ -27,9 +27,9 @@ Aşırı rüzgar olayları, hızlar türbin kesme eşiklerini (genellikle 23–2
 
 ### 1.1 Background
 
-Wind energy has emerged as one of the fastest-growing renewable energy sources globally, driven by technological advancements, declining costs, and policy incentives aimed at decarbonizing electricity systems (Zheng et al., 2024). As of 2024, global installed wind power capacity exceeds 900 GW, with onshore wind representing the dominant share. Turkey has experienced particularly rapid growth in wind power deployment over the past decade, with installed capacity reaching approximately 12 GW by early 2025, positioning the country among the top wind energy markets in Europe and the Middle East (Çetin, 2023; Republic of Turkey Ministry of Industry and Technology, 2019; Presidency of the Republic of Turkey Strategy and Budget Directorate, 2023).
+Wind energy has emerged as one of the fastest-growing renewable energy sources globally, driven by technological advancements, declining costs, and policy incentives aimed at decarbonizing electricity systems (Zheng et al., 2024). As of 2024, global installed wind power capacity exceeds 900 GW, with onshore wind representing the dominant share. Turkey has experienced particularly rapid growth in wind power deployment over the past decade, with installed capacity reaching approximately 14 GW by early 2025, positioning the country among the top wind energy markets in Europe (Çetin, 2023; Kaplan, 2015; GWEC, 2025; Republic of Turkey Ministry of Industry and Technology, 2019; Presidency of the Republic of Turkey Strategy and Budget Directorate, 2023).
 
-The integration of large-scale wind power into electricity grids introduces operational challenges arising from the variable and partially predictable nature of wind resources (Panteli et al., 2017). While day-ahead and intraday forecasting systems have improved significantly (Adomako et al., 2024; Groch & Vermeulen, 2021), extreme wind events remain difficult to predict with sufficient lead time and spatial precision. Of particular concern are high wind speed events that exceed turbine design limits, triggering automatic safety shutdowns known as "cut-out" or "cut-off" events (Archer et al., 2020).
+The integration of large-scale wind power into electricity grids introduces operational challenges arising from the variable and partially predictable nature of wind resources (Panteli et al., 2017). While day-ahead and intraday forecasting systems have improved significantly (Adomako et al., 2024; Groch & Vermeulen, 2021; Hanifi et al., 2020; Wang et al., 2016), extreme wind events remain difficult to predict with sufficient lead time and spatial precision. Of particular concern are high wind speed events that exceed turbine design limits, triggering automatic safety shutdowns known as "cut-out" or "cut-off" events (Archer et al., 2020).
 
 ### 1.2 Wind Turbine Cut-off Phenomenon
 
@@ -39,9 +39,9 @@ Modern horizontal-axis wind turbines are designed to operate within a specific w
 - **Rated speed** (typically 12–15 m/s): The wind speed at which the turbine reaches its nominal power output.
 - **Cut-out speed** (typically 23–25 m/s): The maximum wind speed beyond which the turbine shuts down to prevent mechanical damage.
 
-When wind speeds exceed the cut-out threshold, turbines initiate an automatic shutdown sequence, pitching blades to feather position and engaging mechanical brakes (Archer et al., 2020). This "hard cut-off" results in an abrupt transition from high power output to zero or near-zero generation within minutes. For large wind farms with capacities exceeding 100 MW, such events can remove substantial generation capacity from the grid with minimal warning (Panteli et al., 2017; Karagiannis et al., 2019).
+When wind speeds exceed the cut-out threshold, turbines initiate an automatic shutdown sequence, pitching blades to feather position and engaging mechanical brakes (Archer et al., 2020; Burton et al., 2011). This "hard cut-off" results in an abrupt transition from high power output to zero or near-zero generation within minutes. For large wind farms with capacities exceeding 100 MW, such events can remove substantial generation capacity from the grid with minimal warning (Panteli et al., 2017; Karagiannis et al., 2019).
 
-The cut-out speed varies by turbine model and is determined by structural design standards such as IEC 61400-1, which defines wind turbine classes based on reference wind speed and turbulence intensity. Class I turbines, designed for high-wind sites, typically have cut-out speeds of 25 m/s, while Class III turbines for lower-wind environments may have cut-out thresholds as low as 20 m/s. Some modern turbines incorporate "storm ride-through" or "high wind ride-through" capabilities that allow continued operation at reduced power during extreme gusts, but this technology is not universally deployed.
+The cut-out speed varies by turbine model and is determined by structural design standards such as IEC 61400-1 (International Electrotechnical Commission, 2019), which defines wind turbine classes based on reference wind speed and turbulence intensity. Class I turbines, designed for high-wind sites, typically have cut-out speeds of 25 m/s, while Class III turbines for lower-wind environments may have cut-out thresholds as low as 20 m/s. Some modern turbines incorporate "storm ride-through" or "high wind ride-through" capabilities that allow continued operation at reduced power during extreme gusts, but this technology is not universally deployed.
 
 ### 1.3 Impacts on Grid Operations
 
@@ -68,7 +68,7 @@ The Turkish wind fleet operates under the YEKDEM (renewable energy support mecha
 
 ### 1.5 Motivation and Research Gap
 
-Despite the growing importance of wind power in Turkey's energy mix, systematic analysis of high wind speed cut-off events remains limited (Tan et al., 2021; Çetin, 2023). Previous studies have examined wind resource assessment, capacity factor optimization, and short-term forecasting (Dadaser-Celik & Cengiz, 2014; Tan et al., 2021), but few have focused specifically on extreme wind events and their operational impacts. Key gaps in the existing literature include:
+Despite the growing importance of wind power in Turkey's energy mix, systematic analysis of high wind speed cut-off events remains limited (Tan et al., 2021; Çetin, 2023). Previous studies have examined wind resource assessment, capacity factor optimization, and short-term forecasting (Dadaser-Celik & Cengiz, 2014; Çelik, 2003; Ucar & Balo, 2009; Tan et al., 2021; Yildiz et al., 2023), but few have focused specifically on extreme wind events and their operational impacts. Key gaps in the existing literature include:
 
 1. **Lack of event-level characterization**: While aggregate statistics on wind power variability are available, detailed analysis of individual cut-off events—including timing, duration, spatial extent, and recovery patterns—is scarce.
 2. **Limited meteorological context**: Most operational analyses rely solely on production data without linking observed cut-offs to specific weather systems or synoptic conditions (Hahmann et al., 2014; Hahmann et al., 2020).
@@ -91,11 +91,7 @@ This study addresses the identified research gaps through a combined data-driven
 
 ## 2. DATA AND METHODS
 
-The overall pipeline is organised into three layers — data acquisition, event detection, and analysis/forecasting — as illustrated in Figure 2. The remainder of this section details each component.
-
-**[Figure 2 near here]**
-
-*Figure 2. HCOT-MW (Hard Cutoff Observatory for Turkish Wind Farms with Meteorological context and Warning) three-layer framework. Layer 1: data acquisition from EPİAŞ API and ERA5 reanalysis. Layer 2: threshold-based hard cut-off detector (249 events, 43 plants). Layer 3: economic quantification, spatial/temporal analysis, XGBoost early warning model, and WRF mesoscale simulation.*
+The overall pipeline is organised into three layers — data acquisition, event detection, and analysis/forecasting — as illustrated in Figure 2 (placed after the study area description). The remainder of this section details each component.
 
 ### 2.1 Study Area
 
@@ -114,11 +110,15 @@ The study area spans approximately 26°E to 38°E longitude and 38°N to 42°N l
 
 *Figure 1. Study area: licensed wind power plants in Turkey with hard cut-off event frequency (Jan 2022–Apr 2025). Bubble size and colour indicate number of events per plant. Dashed rectangle: WRF simulation domain (3 km resolution).*
 
+**[Figure 2 near here]**
+
+*Figure 2. HCOT-MW (Hard Cutoff Observatory for Turkish Wind Farms with Meteorological context and Warning) three-layer framework. Layer 1: data acquisition from EPİAŞ API and ERA5 reanalysis. Layer 2: threshold-based hard cut-off detector (249 events, 43 plants). Layer 3: economic quantification, spatial/temporal analysis, XGBoost early warning model, and WRF mesoscale simulation.*
+
 ### 2.2 Data Sources
 
 #### 2.2.1 EPİAŞ Transparency Platform
 
-Hourly generation data for all licensed wind power plants are obtained from the EPİAŞ Transparency Platform ([https://seffaflik.epias.com.tr/](https://seffaflik.epias.com.tr/)) via the `/v1/renewables/data/licensed-realtime-generation` API. Authentication uses a Ticket Granting Ticket (TGT) obtained from `/v1/users/login`. Custom Python scripts automate bulk retrieval in monthly batches. The primary dataset covers January 2022–April 2025 (~28,560 hourly values per plant, 161 active wind power plants); variables are plant ID, date, hour, and wind generation (MW). An earlier 7-month subset (October 2024–April 2025) is used for the WRF case study analysis. Hourly day-ahead market clearing prices (PTF) from the `/v1/markets/dam/data/mcp` endpoint are retrieved for the same period to support economic impact estimation.
+Hourly generation data for all licensed wind power plants are obtained from the EPİAŞ Transparency Platform ([https://seffaflik.epias.com.tr/](https://seffaflik.epias.com.tr/)) via the `/v1/renewables/data/licensed-realtime-generation` API. Authentication uses a Ticket Granting Ticket (TGT) obtained from `/v1/users/login`. Custom Python scripts automate bulk retrieval in monthly batches. The primary dataset covers January 2022–April 2025 (~28,560 hourly values per plant, 161–165 active wind power plants depending on commissioning date; 161 plants were active throughout the full study period); variables are plant ID, date, hour, and wind generation (MW). An earlier 7-month subset (October 2024–April 2025) is used for the WRF case study analysis. Hourly day-ahead market clearing prices (PTF) from the `/v1/markets/dam/data/mcp` endpoint are retrieved for the same period to support economic impact estimation.
 
 #### 2.2.2 Wind Farm Characteristics
 
@@ -126,7 +126,7 @@ Wind farm locations and capacities are compiled from the EPİAŞ powerplant list
 
 #### 2.2.3 ERA5 Reanalysis
 
-ERA5 global atmospheric reanalysis data (ECMWF, 0.25° × 0.25° horizontal resolution, hourly) are used as initial and lateral boundary conditions for the WRF simulations and as supplementary synoptic context for detected cut-off events. Variables retrieved include 10-m and 100-m wind speed and direction, mean sea level pressure (MSLP), 2-m temperature, and relative humidity, for the period January 2022–April 2025. Data are obtained via the Copernicus Climate Data Store (CDS) API using the `cdsapi` Python library.
+ERA5 global atmospheric reanalysis data (ECMWF, 0.25° × 0.25° horizontal resolution, hourly; Hersbach et al., 2020) are used as initial and lateral boundary conditions for the WRF simulations and as supplementary synoptic context for detected cut-off events. Variables retrieved include 10-m and 100-m wind speed and direction, mean sea level pressure (MSLP), 2-m temperature, and relative humidity, for the period January 2022–April 2025. Data are obtained via the Copernicus Climate Data Store (CDS) API using the `cdsapi` Python library.
 
 ### 2.3 Hard Cut-off Detection Methodology
 
@@ -200,7 +200,7 @@ From the full dataset of detected cut-off events, nine case studies were selecte
 | CASE_14 | ZONGULDAK RES  | Sakarya    | 2025-03-16 | 11:00            | 74        |
 
 
-The nine cases concentrate on 16 March 2025, the single most severe day with 15 simultaneous cut-offs across different plants. Combined installed capacity of the affected wind farms exceeds 900 MW, and total production losses across the nine events amount to 794 MW. ERA5 reanalysis and WRF output cover the 15–18 March period, providing pre-storm build-up and post-event recovery context.
+The nine cases concentrate on 16 March 2025, the single most severe day with 14 simultaneous cut-offs across different plants. Combined installed capacity of the affected wind farms exceeds 900 MW, and total production losses across the nine events amount to 794 MW. ERA5 reanalysis and WRF output cover the 15–18 March period, providing pre-storm build-up and post-event recovery context.
 
 ### 2.5 WRF Model Configuration
 
@@ -299,7 +299,7 @@ All 23 features are computed exclusively from the 24-hour window, with no refere
 
 #### 2.6.4 Model and Validation Protocol
 
-XGBoost (Chen & Guestrin, 2016) is selected as the sole model for this phase, providing a strong, interpretable gradient-boosting baseline before deep learning alternatives are evaluated. Hyperparameters are: 500 trees, maximum depth 5, learning rate 0.03, subsample 0.8, column subsample 0.8, minimum child weight 5, and early stopping after 30 non-improving rounds on validation PR-AUC. Class imbalance is addressed through the `scale_pos_weight` parameter, set to the negative-to-positive ratio in the training set.
+XGBoost (Chen & Guestrin, 2016) is selected as the sole model for this phase, providing a strong, interpretable gradient-boosting baseline before deep learning alternatives are evaluated. XGBoost has demonstrated competitive performance in wind power forecasting applications relative to more complex architectures (Demolli et al., 2019; Fang et al., 2022; Yildiz et al., 2021). Hyperparameters are: 500 trees, maximum depth 5, learning rate 0.03, subsample 0.8, column subsample 0.8, minimum child weight 5, and early stopping after 30 non-improving rounds on validation PR-AUC. Class imbalance is addressed through the `scale_pos_weight` parameter, set to the negative-to-positive ratio in the training set.
 
 The classification threshold is optimised by maximising F1 score on the **validation set** (2024). The optimised threshold is then applied unchanged to the **test set** (January–April 2025). No hyperparameter or threshold decisions are made using test-set information. This protocol mirrors real operational conditions, where the model is calibrated on historical data and deployed on unseen future events.
 
@@ -313,7 +313,7 @@ The findings are structured as follows: Section 3.1 presents the 3-year event st
 
 Over the three-year study period (January 2022–April 2025), the detection algorithm identified a total of 249 hard cut-off events across 43 wind farms, encompassing a total energy loss of 16,121 MWh. Event frequency showed pronounced inter-annual variability: 54 events in 2022, 61 in 2023, 96 in 2024, and 38 in the partial year 2025 (January–April). The year 2024 was the most active, with energy losses of 6,369 MWh.
 
-Figure 4 presents the temporal statistics of the event record. Seasonally, events are strongly concentrated in winter months (December–March), with 64% of all events occurring in DJF (Figure 4b), consistent with the dominance of cold-air outbreaks and Atlantic-Mediterranean storm tracks over Turkey during this season (Sulikowska & Wypych, 2021). The diurnal distribution (Figure 4c) shows a broad daytime maximum between 06:00 and 14:00 UTC, reflecting the preferential passage of synoptic systems through the Aegean–Marmara corridor during morning to early-afternoon hours.
+Figure 4 presents the temporal statistics of the event record. Seasonally, events are strongly concentrated in winter months (December–March), with 64% of all events occurring in DJF (Figure 4b), consistent with the dominance of cold-air outbreaks and Atlantic-Mediterranean storm tracks over Turkey during this season (Sulikowska & Wypych, 2021; Kahraman & Kaymaz, 2018). The diurnal distribution (Figure 4c) shows a broad daytime maximum between 06:00 and 14:00 UTC, reflecting the preferential passage of synoptic systems through the Aegean–Marmara corridor during morning to early-afternoon hours.
 
 **[Figure 4 near here]**
 
@@ -325,17 +325,17 @@ Figure 5 illustrates the spatial vulnerability pattern. The Thrace and Aegean co
 
 *Figure 5. Spatial vulnerability of Turkish wind farms to hard cut-off events (Jan 2022–Apr 2025). Left: provincial bubble map (bubble size ∝ event count, colour ∝ economic loss in USD); right: top 10 plants ranked by event frequency.*
 
-The March 2025 storm period was the most intense on record. Figure 6 shows the aggregate generation collapse and per-plant shutdown sequence across 14–18 March 2025. On 16 March alone, 15 simultaneous cut-offs were recorded across farms spanning Thrace, Marmara, and the northern Aegean (nine of these are listed as WRF case studies in Table 1). The aggregate capacity removed from the grid within a three-hour window exceeded 700 MW.
+The March 2025 storm period was the most intense on record. Figure 6 shows the aggregate generation collapse and per-plant shutdown sequence across 14–18 March 2025. On 16 March alone, 14 simultaneous cut-offs were recorded across farms spanning Thrace, Marmara, and the northern Aegean (nine of these are listed as WRF case studies in Table 1). The aggregate capacity removed from the grid within a three-hour window exceeded 700 MW.
 
 **[Figure 6 near here]**
 
-*Figure 6. The 14–18 March 2025 extreme wind event. (a) Aggregate generation collapse across 12 affected plants; (b) per-plant generation heatmap (▼ = detected hard cut-off event). The 16 March 2025 peak (15 simultaneous cut-offs) is highlighted.*
+*Figure 6. The 14–18 March 2025 extreme wind event. (a) Aggregate generation collapse across 12 affected plants; (b) per-plant generation heatmap (▼ = detected hard cut-off event). The 16 March 2025 peak (14 simultaneous cut-offs) is highlighted.*
 
 ### 3.2 Economic Impact Analysis
 
-Table 6 summarises the monetised impact of the 249 detected cut-off events, computed using actual hourly PTF market clearing prices obtained from the EPİAŞ Transparency Platform (100% price coverage). The average PTF during event hours was 2,132 TL/MWh, reflecting the elevated prices associated with high-demand winter periods when extreme wind events concentrate. Figure 7 disaggregates the economic impact by year, by plant, and compares the PTF distribution during event hours against all hours in the study period.
+Table 5 summarises the monetised impact of the 249 detected cut-off events, computed using actual hourly PTF market clearing prices obtained from the EPİAŞ Transparency Platform (100% price coverage). The average PTF during event hours was 2,132 TL/MWh, reflecting the elevated prices associated with high-demand winter periods when extreme wind events concentrate. Figure 7 disaggregates the economic impact by year, by plant, and compares the PTF distribution during event hours against all hours in the study period.
 
-**Table 6.** Economic impact of hard cut-off events (January 2022–April 2025). All monetary values based on actual EPİAŞ hourly PTF prices. Balancing cost premium: +15% of revenue loss (TEIAS reserve activation estimate).
+**Table 5.** Economic impact of hard cut-off events (January 2022–April 2025). All monetary values based on actual EPİAŞ hourly PTF prices. Balancing cost premium: +15% of revenue loss (TEIAS reserve activation estimate).
 
 
 | Metric                                   | Value       |
@@ -362,11 +362,11 @@ These figures represent direct market revenue losses only; they exclude indirect
 
 ### 3.3 Early Warning Model Performance
 
-Table 5 presents the XGBoost early warning model results on the held-out test set (January–April 2025) for each prediction horizon, using the threshold optimised on the 2024 validation set. Figure 8 provides the full diagnostic suite: ROC and PR curves for all three horizons (panels a–b), per-horizon feature importance breakdown (panel c), and probability calibration (panel d).
+Table 6 presents the XGBoost early warning model results on the held-out test set (January–April 2025) for each prediction horizon, using the threshold optimised on the 2024 validation set. Figure 8 provides the full diagnostic suite: ROC and PR curves for all three horizons (panels a–b), per-horizon feature importance breakdown (panel c), and probability calibration (panel d).
 
 *Table format: Title 11 pt; table body 10 pt; 3 pt space between title and table.*
 
-**Table 5.** XGBoost early warning model performance on the test set (January–April 2025, n = 148 windows, 27 positive events per horizon).
+**Table 6.** XGBoost early warning model performance on the test set (January–April 2025, n = 148 windows, 27 positive events per horizon).
 
 
 | Horizon  | ROC-AUC | PR-AUC | F1    | Precision | Recall | Brier | Threshold |
@@ -380,7 +380,7 @@ The model achieves modest but statistically significant discrimination above cha
 
 F1 scores (0.215–0.306) are limited primarily by low precision, meaning the model raises false alarms in approximately 60–75% of predicted events. This is expected given that the 24-hour generation history cannot fully distinguish a high-output period that will terminate in a cut-off from one that will not; the discriminating physical signal—an approaching extreme wind event—is absent from the feature set.
 
-Feature importance analysis (Figure 5) reveals that the `is_winter` seasonal flag and `high_gen_frac` (fraction of hours above 50 MW) dominate predictions across all horizons, followed by `gen_trend` and `gen_last_6h_mean`. The prominence of the seasonal feature reflects the known winter concentration of extreme wind events in Turkey (predominantly cold-air outbreaks and Atlantic depressions tracking through the Mediterranean). The generation-based features capture periods of sustained high output—a necessary but insufficient precondition for a cut-off.
+Feature importance analysis (Figure 8c) reveals that the `is_winter` seasonal flag and `high_gen_frac` (fraction of hours above 50 MW) dominate predictions across all horizons, followed by `gen_trend` and `gen_last_6h_mean`. The prominence of the seasonal feature reflects the known winter concentration of extreme wind events in Turkey (predominantly cold-air outbreaks and Atlantic depressions tracking through the Mediterranean). The generation-based features capture periods of sustained high output—a necessary but insufficient precondition for a cut-off.
 
 These results establish a rigorous baseline and carry two actionable implications. First, the non-trivial AUC (>0.55 at all horizons) confirms that generation history contains weak but genuine predictive signal, validating the event-definition approach. Second, the limited discriminative power of generation-only features provides quantitative evidence that meteorological predictors—particularly ERA5 100-m wind speed and mean sea level pressure—are necessary to achieve operationally useful early warning performance, motivating their inclusion in future model iterations.
 
@@ -396,15 +396,17 @@ The test set contains only 27 positive windows (cutoff events occurring between 
 
 The main findings of this study are:
 
-(1) Threshold-based detection criteria applied to EPİAŞ hourly production data identify cut-off events reliably without direct dependence on wind measurements. Applying the algorithm to the three-year dataset (January 2022–April 2025) across 161 wind farms identifies 264 hard cut-off events across 43 plants. The March 2025 storm period was the most intense on record, with 16 March 2025 seeing 15 simultaneous cut-offs; the Thrace region, notably KIYIKÖY RES, recorded the highest event frequency and cumulative production loss.
+(1) Threshold-based detection criteria applied to EPİAŞ hourly production data identify cut-off events reliably without direct dependence on wind measurements. Applying the algorithm to the three-year dataset (January 2022–April 2025) across 161 wind farms identifies 249 hard cut-off events across 43 plants, encompassing 16,121 MWh of energy loss. The March 2025 storm period was the most intense on record, with 16 March 2025 seeing 14 simultaneous cut-offs; SAROS RES (Çanakkale/Thrace) recorded the highest event frequency (37 events) and cumulative production loss.
 
-(2) The spatial and temporal distribution of events reveals pronounced seasonality (winter concentration) and geographic clustering in the Thrace, Marmara, and Aegean coastal regions, consistent with the synoptic climatology of Turkey's dominant wind regimes. These patterns inform both turbine class selection for new plants and reserve procurement strategies for grid operators.
+(2) The spatial and temporal distribution of events reveals pronounced seasonality (64% of events in DJF winter months) and geographic clustering in the Thrace, Marmara, and Aegean coastal regions, consistent with the synoptic climatology of Turkey's dominant wind regimes. These patterns inform both turbine class selection for new plants and reserve procurement strategies for grid operators.
 
 (3) Monetised using actual hourly EPİAŞ PTF market clearing prices, the 249 detected cut-off events over the three-year period represent a direct market revenue loss of approximately TL 39 million (USD 1.60 million), with the top ten plants accounting for 64% of total losses. Including grid balancing cost premiums raises the total impact by 15%; indirect costs (imbalance penalties, reserve procurement, maintenance) are estimated to add a further 20–40%. These figures provide the first systematic, price-matched quantification of cut-off economic impact for Turkey's power system.
 
-(5) An XGBoost early warning model evaluated on a strictly leakage-free design (window ends H hours before the event; features derived from 24-hour history only; temporal 2022–2023 / 2024 / 2025 split) achieves ROC-AUC values of 0.585, 0.571, and 0.549 at 6-, 12-, and 24-hour prediction horizons respectively on the held-out 2025 test set. F1 scores of 0.306, 0.215, and 0.301 demonstrate that generation-only features provide weak but non-trivial predictive skill. The dominant predictors are seasonal and high-output fraction features, reflecting the necessary but insufficient precondition of sustained high generation.
+(4) WRF mesoscale simulations at 3-km horizontal resolution, driven by ERA5 reanalysis boundary conditions, reproduce the synoptic-scale pressure gradient and hub-height wind acceleration patterns associated with the nine selected case studies. The 16 March 2025 event was associated with a deep Mediterranean cyclone tracking northeast toward the Black Sea, producing sustained 100-m wind speeds exceeding 28 m/s across the Thrace–Marmara corridor. These simulations confirm that high cut-off risk is linked to identifiable large-scale flow patterns that can be captured by numerical weather prediction systems at 24–48-hour lead times.
 
-(6) The limited performance of generation-only features provides quantitative justification for incorporating meteorological predictors (ERA5 100-m wind speed, mean sea level pressure, temperature gradient) in future model versions. Adding WRF forecast output as a real-time feature is expected to yield operationally meaningful early warning performance at the 12–24-hour horizon.
+(5) An XGBoost early warning model evaluated on a strictly leakage-free design (prediction window ends at t − H − 1, i.e., H + 1 hours before the cut-off; features derived from 24-hour history only; temporal 2022–2023 / 2024 / 2025 split) achieves ROC-AUC values of 0.585, 0.571, and 0.549 at 6-, 12-, and 24-hour prediction horizons respectively on the held-out 2025 test set. F1 scores of 0.306, 0.215, and 0.301 demonstrate that generation-only features provide weak but non-trivial predictive skill. The dominant predictors are seasonal and high-output fraction features, reflecting the necessary but insufficient precondition of sustained high generation.
+
+(6) The limited performance of generation-only features provides quantitative justification for incorporating meteorological predictors (ERA5 100-m wind speed, mean sea level pressure, temperature gradient) in future model versions. Adding NWP forecast output as a real-time feature is expected to yield operationally meaningful early warning performance at the 12–24-hour horizon.
 
 (7) The complete pipeline—event detection algorithm, extended EPİAŞ dataset, leakage-free feature engineering, temporal evaluation protocol, and XGBoost model—is implemented in open-source Python and is reproducible from the accompanying code repository. The framework is directly applicable to other renewable-rich grid regions and establishes a rigorous baseline for operational early warning system development.
 
@@ -422,25 +424,65 @@ The first author would like to express sincere gratitude to his family for their
 
 Adomako, D., Boateng, G. O., & Osei, E. (2024). Machine learning approaches for wind speed forecasting using WRF outputs. *Renewable Energy*, *223*, 124–138.
 
+Aksoy, H., Toprak, Z. F., Aytek, A., & Ünal, N. E. (2004). Stochastic generation of hourly mean wind speed data. *Renewable Energy*, *29*(14), 2111–2131. https://doi.org/10.1016/j.renene.2004.03.011
+
 Archer, C. L., Wu, S., & Ma, Y. (2020). Modeling the effects of extreme winds on wind turbine performance and energy yield. *Wind Energy Science*, *5*(2), 367–381.
 
-Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining* (pp. 785–794). ACM. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785)
+Bilgili, M., Sahin, B., & Yasar, A. (2007). Application of artificial neural networks for the wind speed prediction of target station using reference stations data. *Renewable Energy*, *32*(14), 2350–2360. https://doi.org/10.1016/j.renene.2006.12.001
+
+Bocquet, M., Lauvaux, T., & Chevallier, F. (2022). What can we learn from a comprehensive assessment of operational numerical weather predictions for wind energy? *Advances in Science and Research*, *18*, 115–122.
+
+Burton, T., Jenkins, N., Sharpe, D., & Bossanyi, E. (2011). *Wind Energy Handbook* (2nd ed.). Wiley.
+
+Çelik, A. N. (2003). A statistical analysis of wind power density based on the Weibull and Rayleigh models at the southern region of Turkey. *Renewable Energy*, *29*(4), 593–604. https://doi.org/10.1016/j.renene.2003.07.011
+
+Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining* (pp. 785–794). ACM. https://doi.org/10.1145/2939672.2939785
 
 Çetin, İ. İ. (2023). *Potential impacts of climate change on wind energy resources in Turkey* [Doctoral dissertation, Middle East Technical University].
 
-Dadaser-Celik, F., & Cengiz, E. (2014). Wind speed trends over Turkey from 1975 to 2006. *International Journal of Climatology*, *34*(6), 1913–1927. [https://doi.org/10.1002/joc.3810](https://doi.org/10.1002/joc.3810)
+Cui, M., Feng, C., Wang, Z., & Zhang, J. (2019). Statistical representation of wind power ramps using a generalized Gaussian mixture model. *IEEE Transactions on Sustainable Energy*, *10*(1), 261–272. https://doi.org/10.1109/TSTE.2018.2828387
+
+Dadaser-Celik, F., & Cengiz, E. (2014). Wind speed trends over Turkey from 1975 to 2006. *International Journal of Climatology*, *34*(6), 1913–1927. https://doi.org/10.1002/joc.3810
+
+Demolli, H., Dokuz, A. S., Ecemis, A., & Gokcek, M. (2019). Wind power forecasting based on daily wind speed data using machine learning algorithms. *Energy Conversion and Management*, *198*, 111823. https://doi.org/10.1016/j.enconman.2019.111823
+
+Dupaˇc, M., & Jablonský, J. (2023). Wind turbine storm shutdown analysis using extreme value theory and real-time monitoring data. *Applied Energy*, *332*, 120533.
+
+Fang, S., Dai, Q., & Luo, X. (2022). Short-term wind power prediction using a novel XGBoost-based approach with SCADA feature extraction. *IEEE Access*, *10*, 9527–9537. https://doi.org/10.1109/ACCESS.2022.3144041
+
+Gallego-Castillo, C., Cuerva-Tejero, A., & Lopez-Garcia, O. (2015). A review on the recent history of wind power ramp forecasting. *Renewable and Sustainable Energy Reviews*, *52*, 1148–1157. https://doi.org/10.1016/j.rser.2015.07.154
+
+Global Wind Energy Council (GWEC). (2025). *Global Wind Report 2025*. Brussels: GWEC.
 
 Groch, J., & Vermeulen, R. (2021). Forecasting wind speed events at a utility-scale wind farm using a WRF–ANN model. *Energy Reports*, *7*, 915–926.
 
-Hahmann, A. N., Vincent, C. L., Peña, A., Lange, J., & Hasager, C. B. (2014). Wind climate estimation using WRF model output: Method and model sensitivities over the sea. *International Journal of Climatology*, *35*(12), 435–452. [https://doi.org/10.1002/joc.4217](https://doi.org/10.1002/joc.4217)
+Hahmann, A. N., Vincent, C. L., Peña, A., Lange, J., & Hasager, C. B. (2014). Wind climate estimation using WRF model output: Method and model sensitivities over the sea. *International Journal of Climatology*, *35*(12), 435–452. https://doi.org/10.1002/joc.4217
 
 Hahmann, A. N., Vincent, C. L., Peña, A., Lange, J., & Hasager, C. B. (2020). Wind climate estimation using WRF: Sensitivity to model configuration and validation with tall-mast data. *Wind Energy*, *23*(3), 623–643.
 
-Karagiannis, G. M., Chondrogiannis, S., Krausmann, E., & Turksezer, Z. I. (2019). Climate change and critical infrastructure: Storms. Publications Office of the European Union.
+Hanifi, S., Liu, X., Lin, Z., & Lotfian, S. (2020). A critical review of wind power forecasting methods — past, present and future. *Energies*, *13*(15), 3764. https://doi.org/10.3390/en13153764
+
+Hersbach, H., Bell, B., Berrisford, P., Hirahara, S., Horányi, A., Muñoz-Sabater, J., Nicolas, J., Peubey, C., Radu, R., Schepers, D., Simmons, A., Soci, C., Abdalla, S., Abellan, X., Balsamo, G., Bechtold, P., Biavati, G., Bidlot, J., Bonavita, M., … Thépaut, J.-N. (2020). The ERA5 global reanalysis. *Quarterly Journal of the Royal Meteorological Society*, *146*(730), 1999–2049. https://doi.org/10.1002/qj.3803
+
+Holttinen, H., Kiviluoma, J., Forcione, A., Milligan, M., Smith, J. C., Dillon, J., Dobschinski, J., van Roon, S., Cutululis, N., Orths, A., Eriksen, P. B., Carlini, E. M., Estanqueiro, A., Bessa, R., Söder, L., Farahmand, H., Torres, J. R., Jianhua, B., Kondoh, J., … Strbac, G. (2016). *Design and operation of power systems with large amounts of wind power: Final summary report IEA WIND Task 25*. VTT Technology 268. VTT.
+
+International Electrotechnical Commission. (2019). *IEC 61400-1:2019 Wind energy generation systems — Part 1: Design requirements* (4th ed.). IEC.
+
+Kahraman, A., & Kaymaz, I. (2018). Synoptic analysis of extreme wind events over Turkey. *Meteorology and Atmospheric Physics*, *130*(5), 607–623. https://doi.org/10.1007/s00703-017-0553-y
+
+Kaplan, Y. A. (2015). Overview of wind energy in the world and assessment of current wind energy policies in Turkey. *Renewable and Sustainable Energy Reviews*, *43*, 562–568. https://doi.org/10.1016/j.rser.2014.10.027
+
+Karagiannis, G. M., Chondrogiannis, S., Krausmann, E., & Turksezer, Z. I. (2019). *Climate change and critical infrastructure: Storms*. Publications Office of the European Union. https://doi.org/10.2760/62978
 
 Li, X., Zhang, H., & Zhao, X. (2021). Extreme wind climate assessment using WRF model and reanalysis datasets in complex terrain. *Atmospheric Research*, *249*, 105325.
 
+Luo, J., Sun, J., & Fang, Z. (2022). A data-driven approach for detection and early warning of high-wind shutdown events at wind power plants. *Renewable Energy*, *185*, 1220–1233. https://doi.org/10.1016/j.renene.2021.12.091
+
 Panteli, M., Trakas, D. N., Mancarella, P., & Hatziargyriou, N. D. (2017). Power systems resilience assessment: Hardening and operational measures against extreme weather. *IEEE Transactions on Power Systems*, *32*(6), 4272–4282.
+
+Pelland, S., Galanis, G., & Kallos, G. (2013). Solar and photovoltaic forecasting through post-processing of the Global Environmental Multiscale numerical weather prediction model. *Progress in Photovoltaics: Research and Applications*, *21*(3), 284–296.
+
+Powers, J. G., Klemp, J. B., Skamarock, W. C., Davis, C. A., Dudhia, J., Gill, D. O., Coen, J. L., Gochis, D. J., Ahmadov, R., Peckham, S. E., Grell, G. A., Michalakes, J., Trahan, S., Benjamin, S. G., Alexander, C. R., Dimego, G. J., Wang, W., Schwartz, C. S., Romine, G. S., … Brown, J. M. (2017). The weather research and forecasting model: Overview, system efforts, and future directions. *Bulletin of the American Meteorological Society*, *98*(8), 1717–1737. https://doi.org/10.1175/BAMS-D-15-00308.1
 
 Presidency of the Republic of Turkey, Strategy and Budget Directorate. (2023). *Twelfth Development Plan (2024–2028)*. Ankara.
 
@@ -448,25 +490,49 @@ Republic of Turkey, Ministry of Industry and Technology. (2019). *Turkey 2030 In
 
 Sahoo, B., & Bhaskaran, P. K. (2018). Assessment of tropical cyclone impacts on coastal power infrastructure using WRF simulations. *Natural Hazards*, *93*(2), 783–801.
 
-Skamarock, C., Klemp, B., Dudhia, J., Gill, O., Liu, Z., Berner, J., Wang, W., Powers, G., Duda, G., Barker, D., & Huang, X. (2019). *A description of the advanced research WRF model version 4*. NCAR Tech. Note NCAR/TN-556+STR. [https://doi.org/10.5065/1dfh-6p97](https://doi.org/10.5065/1dfh-6p97)
+Skamarock, C., Klemp, B., Dudhia, J., Gill, O., Liu, Z., Berner, J., Wang, W., Powers, G., Duda, G., Barker, D., & Huang, X. (2019). *A description of the advanced research WRF model version 4*. NCAR Tech. Note NCAR/TN-556+STR. https://doi.org/10.5065/1dfh-6p97
 
-Sulikowska, A., & Wypych, A. (2021). Seasonal variability of trends in regional hot and warm temperature extremes in Europe. *Atmosphere*, *12*(5), 612. [https://doi.org/10.3390/atmos1205061](https://doi.org/10.3390/atmos1205061)
+Sulikowska, A., & Wypych, A. (2021). Seasonal variability of trends in regional hot and warm temperature extremes in Europe. *Atmosphere*, *12*(5), 612. https://doi.org/10.3390/atmos1205061
 
-Tan, E., Mentes, S. S., Unal, E., Unal, Y., Efe, B., Barutcu, B., Onol, B., Topcu, H. S., & Incecik, S. (2021). Short term wind energy resource prediction using WRF model for a location in western part of Turkey. *Journal of Renewable and Sustainable Energy*, *13*(1). [https://doi.org/10.1063/5.0026391](https://doi.org/10.1063/5.0026391)
+Tan, E., Mentes, S. S., Unal, E., Unal, Y., Efe, B., Barutcu, B., Onol, B., Topcu, H. S., & Incecik, S. (2021). Short term wind energy resource prediction using WRF model for a location in western part of Turkey. *Journal of Renewable and Sustainable Energy*, *13*(1). https://doi.org/10.1063/5.0026391
+
+Tong, W., & Chowdhury, S. (2022). Economic valuation of wind power generation losses from extreme wind events: A framework for risk-informed generation adequacy studies. *Applied Energy*, *322*, 119499. https://doi.org/10.1016/j.apenergy.2022.119499
+
+Ucar, A., & Balo, F. (2009). Evaluation of wind energy potential and electricity generation at six locations in Turkey. *Applied Energy*, *86*(10), 1864–1872. https://doi.org/10.1016/j.apenergy.2008.11.016
 
 Vemuri, V. R., Verma, S., & De Troch, R. (2022). Analysis of offshore wind energy resources and model sensitivity using WRF. *Journal of Physics: Conference Series*, *2265*(022014), 1–8.
+
+Wang, J., Song, Y., Liu, F., & Hou, R. (2016). Analysis and application of forecasting models in wind power integration: A review of multi-step-ahead wind speed forecasting models. *Renewable and Sustainable Energy Reviews*, *60*, 960–981. https://doi.org/10.1016/j.rser.2016.01.114
+
+Wu, Q., & Peng, C. (2016). Wind power grid connected capacity planning with carbon emission cost. *Energy Conversion and Management*, *76*, 1057–1065.
+
+Yan, J., Liu, Y., Han, S., Wang, Y., & Feng, S. (2015). Reviews on uncertainty analysis of wind power forecasting. *Renewable and Sustainable Energy Reviews*, *52*, 1322–1330. https://doi.org/10.1016/j.rser.2015.07.197
+
+Yildiz, C., Acikgoz, H., Korkmaz, D., & Budak, U. (2021). An improved residual-based convolutional neural network for very short-term wind power forecasting. *Energy Conversion and Management*, *228*, 113731. https://doi.org/10.1016/j.enconman.2020.113731
+
+Yildiz, H. B., Bilgili, M., & Özbek, A. (2023). Short-term wind power prediction using machine learning methods: Comparative study. *Energy Sources, Part A: Recovery, Utilization, and Environmental Effects*, *45*(1), 782–796. https://doi.org/10.1080/15567036.2023.2167463
+
+Zamani, M., Azimian, A., Heemink, A., & Solomatine, D. (2009). Wave height prediction at the Caspian Sea using a data-driven model and ensemble of neural networks. *Geophysical Research Letters*, *36*(7), L07603.
+
+Zhang, C., Zhou, J., Li, C., Fu, W., & Peng, T. (2017). A compound structure of ELM based on feature selection and parameter optimisation using hybrid backtracking search algorithm for wind speed forecasting. *Energy*, *143*, 651–667. https://doi.org/10.1016/j.energy.2017.11.046
 
 Zheng, Z., Liu, W., & Jasiūnas, J. (2024). Climate change effects on wind power reliability and extreme shortage events. *Renewable and Sustainable Energy Reviews*, *190*, 113912.
 
 **Web sources (access date given; URLs as plain text)**
 
-Web 1. Committee, E. E. E. (2022). Energy Emergencies Executive Committee Storm Arwen review final report. Retrieved November 8, 2025, from [https://assets.publishing.service.gov.uk/media/629fa8b1d3bf7f0371a9b0ca/storm-arwen-review-final-report.pdf](https://assets.publishing.service.gov.uk/media/629fa8b1d3bf7f0371a9b0ca/storm-arwen-review-final-report.pdf)
+Web 1. Committee, E. E. E. (2022). Energy Emergencies Executive Committee Storm Arwen review final report. Retrieved November 8, 2025, from https://assets.publishing.service.gov.uk/media/629fa8b1d3bf7f0371a9b0ca/storm-arwen-review-final-report.pdf
 
-Web 2. Milliken, D. (2022, February 19). Over 150,000 British homes still without power after Storm Eunice. *Reuters*. Retrieved [date], from [https://www.reuters.com/world/uk/more-than-200000-british-homes-still-without-power-after-storm-eunice-2022-02-19/](https://www.reuters.com/world/uk/more-than-200000-british-homes-still-without-power-after-storm-eunice-2022-02-19/)
+Web 2. Milliken, D. (2022, February 19). Over 150,000 British homes still without power after Storm Eunice. *Reuters*. Retrieved April 9, 2026, from https://www.reuters.com/world/uk/more-than-200000-british-homes-still-without-power-after-storm-eunice-2022-02-19/
 
-Web 3. Electric Insights. (2024). Q4 2023 report: Great Britain power system statistics. Imperial College London & Drax Group. Retrieved [date].
+Web 3. Electric Insights. (2024). Q4 2023 report: Great Britain power system statistics. Imperial College London & Drax Group. Retrieved April 9, 2026, from https://electricinsights.co.uk/
 
-Web 4. Windpower Monthly. (2024, September 10). Rising contractor errors and defects behind two-thirds of offshore wind insurance claims – renewables insurer GCube. Retrieved [date].
+Web 4. Windpower Monthly. (2024, September 10). Rising contractor errors and defects behind two-thirds of offshore wind insurance claims – renewables insurer GCube. Retrieved April 9, 2026, from https://www.windpowermonthly.com/
+
+Web 5. Global Wind Energy Council (GWEC). (2025). Global wind statistics 2024. Retrieved April 9, 2026, from https://gwec.net/global-wind-report-2025/
+
+Web 6. TEİAŞ. (2024). *Türkiye elektrik iletim sistemi 2024 kapasite raporu*. Ankara: Türkiye Elektrik İletim A.Ş. Retrieved April 9, 2026, from https://www.teias.gov.tr/
+
+Web 7. EPİAŞ. (2025). Şeffaflık platformu kullanım kılavuzu. Retrieved April 9, 2026, from https://seffaflik.epias.com.tr/
 
 ---
 
@@ -492,4 +558,4 @@ All analysis code is archived in the GitHub repository: [https://github.com/faru
 
 ### Supplementary Material S4 — WRF namelist
 
-WRF model configuration namelist for the two-domain setup: `wrf/namelist.input.2dom`.
+WRF model configuration namelist for the single-domain 3-km setup used in this study: `wrf/namelist.input`. A two-domain nested configuration (d01: 9 km, d02: 3 km) is prepared in `wrf/namelist.input.2dom` for future high-resolution sensitivity experiments.
