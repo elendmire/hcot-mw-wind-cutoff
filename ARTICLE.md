@@ -210,7 +210,11 @@ The Weather Research and Forecasting (WRF) model version 4.x is used for high-re
 
 #### 2.5.2 Domain Configuration
 
-A two-way nested two-domain configuration is used. The outer domain (d01) has a horizontal grid spacing of 9 km (e_we = 181, e_sn = 151), covering Turkey, the Balkans, and the eastern Mediterranean, centred at 40°N, 28°E with Lambert conformal projection (true latitudes 36°N and 44°N). The inner domain (d02) has 3 km grid spacing (e_we = 241, e_sn = 181), covering the Thrace, Marmara, and northern Aegean wind corridors where cut-off events are concentrated. The nesting ratio is 1:3 and the feedback option is enabled (two-way nesting). At 3-km resolution, convective processes are explicitly resolved and cumulus parameterization is turned off. The time step for d01 is 54 s; d02 uses a 1:3 ratio (18 s). Both domains use 51 vertical levels (e_vert = 51) with enhanced resolution in the planetary boundary layer.
+A two-way nested two-domain configuration is used (Figure 11). The outer domain (d01) has 9 km horizontal grid spacing (e\_we = 201, e\_sn = 181, e\_vert = 40), covering Turkey, the Balkans, and the eastern Mediterranean (approximately 17°E–39°E, 33°N–47°N), centred at 40°N, 28°E with Lambert conformal projection (true latitudes 36°N and 44°N). The inner domain (d02) has 3 km grid spacing (e\_we = 202, e\_sn = 199, e\_vert = 40), covering the Thrace, Marmara, and northern Aegean wind corridors (approximately 21°E–28°E, 35°N–40°N) where the majority of cut-off events are concentrated. The nesting ratio is 1:3 and two-way feedback is enabled. At 3-km resolution, convective processes are explicitly resolved; cumulus parameterisation is turned off for d02 and uses the Kain-Fritsch scheme for d01. The time step for d01 is 54 s; d02 uses a 1:3 ratio (18 s). Both domains use 40 vertical levels with enhanced resolution in the planetary boundary layer. ERA5 boundary conditions have 26 pressure levels (num\_metgrid\_levels = 26).
+
+**[Figure 11 near here]**
+
+*Figure 11. WRF simulation domain configuration. Outer domain d01 (9 km, solid blue border): covers Turkey, the Balkans, and the eastern Mediterranean. Inner domain d02 (3 km, dashed red border): covers the Thrace–Marmara–Aegean cut-off corridor. Wind farms that experienced hard cut-off events during the simulation period (14–18 March 2025) are marked with triangles (▼). Background: Natural Earth 110m land surface.*
 
 #### 2.5.3 Physics Parameterizations
 
@@ -227,11 +231,11 @@ A two-way nested two-domain configuration is used. The outer domain (d01) has a 
 | ra_sw_physics      | 4             | RRTMG SW          | Shortwave radiation                                                   |
 | bl_pbl_physics     | 1             | YSU               | Non-local PBL scheme; widely used for wind energy applications        |
 | sf_sfclay_physics  | 1             | Revised MM5 M-O   | Surface layer (Monin-Obukhov similarity)                              |
-| sf_surface_physics | 1             | Thermal Diffusion | 5-layer soil thermal diffusion land surface model                     |
-| cu_physics         | 0             | Off               | Cumulus parameterization off (convection explicitly resolved at 3 km) |
+| sf_surface_physics | 2             | Noah LSM          | 4-layer Noah land surface model                                       |
+| cu_physics         | 1 / 0         | Kain-Fritsch / Off | d01: Kain-Fritsch cumulus; d02: off (explicit convection at 3 km)    |
 
 
-Vertical configuration: 51 levels (e_vert = 51), with enhanced resolution in the planetary boundary layer.
+Vertical configuration: 40 levels (e_vert = 40) for both domains, with enhanced resolution in the planetary boundary layer. ERA5 boundary conditions provide 26 pressure levels (num_metgrid_levels = 26).
 
 #### 2.5.4 Initial and Boundary Conditions
 
@@ -596,4 +600,4 @@ All analysis code is archived in the GitHub repository: [https://github.com/faru
 
 ### Supplementary Material S4 — WRF namelist
 
-WRF model configuration namelist for the single-domain 3-km setup used in this study: `wrf/namelist.input`. A two-domain nested configuration (d01: 9 km, d02: 3 km) is prepared in `wrf/namelist.input.2dom` for future high-resolution sensitivity experiments.
+WRF model configuration for the two-domain nested setup (d01: 9 km outer, d02: 3 km inner) used in this study is provided in `wrf/namelist.input.2dom`. Key settings: e\_we = 201/202, e\_sn = 181/199, e\_vert = 40, YSU PBL (bl_pbl_physics = 1), WSM6 microphysics (mp_physics = 8), RRTMG radiation (ra_lw/sw_physics = 4), Noah LSM (sf_surface_physics = 2). Simulation period: 14–18 March 2025 with ERA5-driven boundary conditions at 6-hourly intervals.
