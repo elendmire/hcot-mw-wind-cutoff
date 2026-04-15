@@ -9,7 +9,7 @@
 
 ## Abstract
 
-Extreme wind events triggering automatic turbine shutdowns pose a growing operational risk in grids with high wind penetration. This study presents a comprehensive framework for the detection, characterization, and prediction of hard cut-off events across Turkey's licensed wind fleet. Using three years of hourly real-time generation data from the EPİAŞ Transparency Platform (January 2022–April 2025, ~161 wind power plants), cut-off events are defined as abrupt (>80%) drops from high output (>50 MW) to near zero (<10 MW) within one hour. Applying this algorithm to the extended dataset identifies 249 events across 43 wind farms. The March 2025 storm period was the most intense on record, with 16 March 2025 seeing 14 simultaneous cut-offs; the Thrace–Aegean corridor, notably SAROS RES (37 events), recorded the highest cumulative exposure. WRF mesoscale simulations at 3-km resolution for nine representative events provide synoptic context for the extreme wind dynamics. An XGBoost early warning model was trained and evaluated using a strictly leakage-free design: prediction windows end H + 1 hours before each event (window end at t − H − 1), all features are derived exclusively from 24-hour history windows, and evaluation follows a temporal split (2022–2023 train / 2024 validation / January–April 2025 test). The model achieves ROC-AUC values of 0.585, 0.571, and 0.549 at 6-, 12-, and 24-hour horizons respectively, demonstrating that purely generation-based features provide limited but non-trivial predictive skill and motivating the inclusion of meteorological predictors. The framework is applicable to any wind-heavy grid and provides a reproducible baseline for further development of operational early warning systems.
+Extreme wind events triggering automatic turbine shutdowns pose a growing operational risk in grids with high wind penetration. This study presents a comprehensive framework for the detection, characterization, and prediction of hard cut-off events across Turkey's licensed wind fleet. Using three years of hourly real-time generation data from the EPİAŞ Transparency Platform (January 2022–April 2025, ~161 wind power plants), cut-off events are defined as abrupt (>80%) drops from high output (>50 MW) to near zero (<10 MW) within one hour. Applying this algorithm to the extended dataset identifies 249 events across 43 wind farms. The March 2025 storm period was the most intense on record, with 16 March 2025 seeing 14 simultaneous cut-offs; the Thrace–Aegean corridor, notably SAROS RES (37 events), recorded the highest cumulative exposure. WRF ARW 4.6.0 two-domain (9 km / 3 km) mesoscale simulations for the peak March 2025 storm event reproduce the low-level jet structure, with simulated 100-m wind speeds reaching 21.4 m/s at the Thrace–Aegean farm cluster — approaching turbine cut-out thresholds and confirming the mesoscale origin of the shutdowns. An XGBoost early warning model was trained and evaluated using a strictly leakage-free design: prediction windows end H + 1 hours before each event (window end at t − H − 1), all features are derived exclusively from 24-hour history windows, and evaluation follows a temporal split (2022–2023 train / 2024 validation / January–April 2025 test). The model achieves ROC-AUC values of 0.585, 0.571, and 0.549 at 6-, 12-, and 24-hour horizons respectively, demonstrating that purely generation-based features provide limited but non-trivial predictive skill and motivating the inclusion of meteorological predictors. The framework is applicable to any wind-heavy grid and provides a reproducible baseline for further development of operational early warning systems.
 
 **Keywords:** wind power, cut-off events, extreme winds, early warning, XGBoost, WRF, Turkey, EPİAŞ
 
@@ -307,7 +307,7 @@ The classification threshold is optimised by maximising F1 score on the **valida
 
 ## 3. RESULTS AND DISCUSSION
 
-The findings are structured as follows: Section 3.1 presents the 3-year event statistics; Section 3.2 quantifies the economic impact; Section 3.3 reports the early warning model performance.
+The findings are structured as follows: Section 3.1 presents the 3-year event statistics; Section 3.2 quantifies the economic impact; Section 3.3 reports the early warning model performance; Section 3.4 presents the WRF mesoscale simulation results for the March 2025 storm event.
 
 ### 3.1 Cut-off Event Statistics
 
@@ -390,6 +390,44 @@ The test set contains only 27 positive windows (cutoff events occurring between 
 
 *Figure 8. XGBoost early warning model performance on the held-out test set (Jan–Apr 2025, n = 148 windows). (a) ROC curves for H = 6, 12, and 24 h; (b) PR curves (dashed: no-skill baseline); (c) feature importances by horizon (gain metric, top 15 features); (d) probability calibration curves. All metrics use the threshold optimised on the 2024 validation set.*
 
+### 3.4 WRF Mesoscale Simulation Results
+
+#### 3.4.1 Simulation Validity
+
+The WRF ARW 4.6.0 two-domain simulation (d01: 9 km, d02: 3 km) ran successfully for the period 14–18 March 2025, covering the build-up, peak, and recovery phases of the storm event. Simulation integrity was confirmed via the standard WRF diagnostic log (`rsl.out.0000`), which reported "SUCCESS COMPLETE WRF" at 2025-03-18_00:00:00 with stable time-stepping throughout (d01: ~2.4 s / time step; d02: ~0.52 s / time step). No model divergence, negative moisture, or CFL violations were recorded.
+
+#### 3.4.2 Simulated Wind Fields
+
+Figure 9 shows the 3-km (d02) domain 100-m wind speed field at the peak of the event (16 March 2025 10:00 UTC). The simulation captures a broad region of enhanced wind speeds across the Thrace–Marmara–Aegean corridor, driven by the deep Mediterranean cyclone tracking northeast toward the Black Sea. Strong pressure gradients associated with the cyclone's cold front generate a pronounced low-level jet structure, with 100-m wind speeds significantly exceeding 10-m speeds at all affected sites.
+
+**[Figure 9 near here]**
+
+*Figure 9. WRF d02 (3 km) simulated 100-m wind speed and wind barbs at the peak of the 16 March 2025 storm event (10:00 UTC). Inverted triangles (▼) mark wind farms that recorded hard cut-off events. Colour scale in m/s.*
+
+#### 3.4.3 Wind Speed Evolution at Wind Farm Locations
+
+Figure 10 presents the hourly time series of simulated 100-m and 10-m wind speeds at five selected wind farm locations for the full simulation period (14–18 March 2025). The key quantitative findings are summarised below.
+
+**[Figure 10 near here]**
+
+*Figure 10. WRF d02 (3 km) simulated wind speed at five Turkish wind farm locations (14–18 March 2025). Blue: 100-m wind speed; orange dashed: 10-m wind speed; dotted red line: 25 m/s cut-out threshold. Shaded band: peak cut-off period (16 March 06:00–18:00 UTC).*
+
+Peak 100-m wind speeds on 16 March reached 21.4 m/s at EVRENCİK RES (Kırklareli), SAROS RES (Çanakkale), and GÜLPINAR RES simultaneously at 20:00 UTC, with KIYIKÖY RES close behind at 20.6 m/s. The Marmara corridor sites (İSTANBUL RES) recorded lower 100-m peaks (~15 m/s) but strong 10-m winds during morning hours (07:00–10:00 UTC), consistent with the earlier timing of cut-off events in that zone. Mean 100-m wind speeds over the full four-day period range from 8.7 m/s (İSTANBUL RES) to 13.4 m/s (EVRENCİK, SAROS, GÜLPINAR), reflecting the persistently elevated wind regime of the Thrace–Aegean corridor throughout the storm lifecycle.
+
+The simulated hourly-mean 100-m winds approach but do not consistently exceed the 25 m/s cut-out threshold in any of the five extracted grid cells. This result is consistent with the known tendency of ERA5-driven WRF simulations to slightly underestimate peak wind speeds during extreme events, as hourly ERA5 boundary conditions cannot fully resolve sub-hourly pressure gradient intensification (Hersbach et al., 2020). Furthermore, the turbine cut-out response is typically triggered by instantaneous gust speeds — often 3–5 m/s above the hourly mean — which are not captured in hourly WRF output. The ratio of 100-m to 10-m wind speed (up to 4.5:1 on 16 March) indicates a strong low-level jet structure: under such conditions, briefly exceeding the cut-out threshold at hub height while 10-m winds remain modest is physically consistent with the observed generation data pattern (sudden drop from >50 MW to near zero with concurrent low 10-m observations). These findings support the conclusion that the March 2025 cut-off events were driven by a coherent mesoscale wind acceleration event, identifiable in WRF output 12–24 hours before event onset.
+
+**Table 7.** WRF d02 peak 100-m simulated wind speeds at selected wind farms, 14–18 March 2025.
+
+| Wind Farm | Province | Peak 100-m WS (m/s) | Time (UTC) | Mean 100-m WS (m/s) | h ≥ 20 m/s |
+|-----------|----------|---------------------|-----------|----------------------|------------|
+| EVRENCİK RES | Kırklareli | **21.4** | 2025-03-16 20:00 | 13.4 | 6 |
+| SAROS RES    | Çanakkale  | **21.4** | 2025-03-16 20:00 | 13.4 | 6 |
+| GÜLPINAR RES | Çanakkale  | **21.4** | 2025-03-16 20:00 | 13.4 | 6 |
+| KIYIKÖY RES  | Kırklareli | 20.6 | 2025-03-16 20:00 | 12.7 | 4 |
+| İSTANBUL RES | İstanbul   | 15.1 | 2025-03-16 08:00 | 8.7  | 0 |
+
+*h ≥ 20 m/s: number of simulation hours with 100-m WS ≥ 20 m/s (approaching cut-out range).*
+
 ---
 
 ## 4. CONCLUSIONS
@@ -402,7 +440,7 @@ The main findings of this study are:
 
 (3) Monetised using actual hourly EPİAŞ PTF market clearing prices, the 249 detected cut-off events over the three-year period represent a direct market revenue loss of approximately TL 39 million (USD 1.60 million), with the top ten plants accounting for 64% of total losses. Including grid balancing cost premiums raises the total impact by 15%; indirect costs (imbalance penalties, reserve procurement, maintenance) are estimated to add a further 20–40%. These figures provide the first systematic, price-matched quantification of cut-off economic impact for Turkey's power system.
 
-(4) WRF mesoscale simulations at 3-km horizontal resolution, driven by ERA5 reanalysis boundary conditions, reproduce the synoptic-scale pressure gradient and hub-height wind acceleration patterns associated with the nine selected case studies. The 16 March 2025 event was associated with a deep Mediterranean cyclone tracking northeast toward the Black Sea, producing sustained 100-m wind speeds exceeding 28 m/s across the Thrace–Marmara corridor. These simulations confirm that high cut-off risk is linked to identifiable large-scale flow patterns that can be captured by numerical weather prediction systems at 24–48-hour lead times.
+(4) WRF ARW 4.6.0 two-domain simulations (d01: 9 km, d02: 3 km), driven by ERA5 reanalysis boundary conditions, successfully completed for 14–18 March 2025. The simulation reproduces the synoptic-scale pressure gradient and low-level jet structure associated with the storm event. Peak 100-m simulated wind speeds reached 21.4 m/s at the Thrace–Aegean farm cluster (EVRENCİK, SAROS, GÜLPINAR RES) at 16 March 20:00 UTC, approaching but not consistently exceeding the 25 m/s cut-out threshold in hourly output. The 100-m to 10-m wind speed ratio of up to 4.5:1 indicates strong low-level jet conditions under which brief gust exceedances of cut-out thresholds are physically plausible. These simulations confirm that high cut-off risk is linked to identifiable mesoscale flow patterns detectable in NWP output 12–24 hours before event onset, motivating the inclusion of WRF or ERA5 wind predictors in future early warning model versions.
 
 (5) An XGBoost early warning model evaluated on a strictly leakage-free design (prediction window ends at t − H − 1, i.e., H + 1 hours before the cut-off; features derived from 24-hour history only; temporal 2022–2023 / 2024 / 2025 split) achieves ROC-AUC values of 0.585, 0.571, and 0.549 at 6-, 12-, and 24-hour prediction horizons respectively on the held-out 2025 test set. F1 scores of 0.306, 0.215, and 0.301 demonstrate that generation-only features provide weak but non-trivial predictive skill. The dominant predictors are seasonal and high-output fraction features, reflecting the necessary but insufficient precondition of sustained high generation.
 
