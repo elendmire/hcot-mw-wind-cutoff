@@ -481,7 +481,7 @@ This research received no specific grant from any funding agency in the public, 
 
 ## DATA AVAILABILITY STATEMENT
 
-EPİAŞ generation and market clearing price data are publicly available at https://seffaflik.epias.com.tr/. ERA5 reanalysis data are available via the Copernicus Climate Data Store at https://cds.climate.copernicus.eu/. Analysis code and processed data are available at [GitHub URL — insert before submission]. WRF simulation namelist is provided as Supplementary Material S4.
+EPİAŞ generation and market clearing price data are publicly available at https://seffaflik.epias.com.tr/. ERA5 reanalysis data are available via the Copernicus Climate Data Store at https://cds.climate.copernicus.eu/. Analysis code and processed data are available at https://github.com/elendmire/hcot-mw-wind-cutoff. WRF simulation namelist is provided as Supplementary Material S4.
 
 ---
 
