@@ -132,9 +132,7 @@ def load_generation(plant_name=None):
     return df
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # FIGURE 1 — Study Area Map
-# ══════════════════════════════════════════════════════════════════════════════
 def fig1_study_area(ev):
     try:
         import geopandas as gpd
@@ -226,9 +224,7 @@ def fig1_study_area(ev):
     savefig("Fig1_study_area.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # FIGURE 2 — HCOT-MW Framework (improved)
-# ══════════════════════════════════════════════════════════════════════════════
 def fig2_framework():
     fig, ax = plt.subplots(figsize=(13, 7))
     ax.set_xlim(0, 13); ax.set_ylim(0, 7)
@@ -317,9 +313,7 @@ def fig2_framework():
     savefig("Fig2_framework.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # FIGURE 3 — Cut-off event detection exemplar
-# ══════════════════════════════════════════════════════════════════════════════
 def fig3_detection_exemplar(ev):
     print("  Loading SAROS RES generation data…")
     gen = load_generation("SAROS")
@@ -431,9 +425,7 @@ def fig3_detection_exemplar(ev):
     savefig("Fig3_detection_exemplar.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # FIGURE 4 — Three-year event statistics (4-panel)
-# ══════════════════════════════════════════════════════════════════════════════
 def fig4_event_statistics(ev):
     fig = plt.figure(figsize=(13, 9))
     gs = gridspec.GridSpec(2, 2, figure=fig, hspace=0.38, wspace=0.32)
@@ -520,9 +512,7 @@ def fig4_event_statistics(ev):
     savefig("Fig4_event_statistics.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # FIGURE 5 — Spatial vulnerability map (Turkey + bubble overlay)
-# ══════════════════════════════════════════════════════════════════════════════
 def fig5_spatial(ev):
     try:
         import geopandas as gpd
@@ -608,9 +598,7 @@ def fig5_spatial(ev):
     savefig("Fig5_spatial_vulnerability.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # FIGURE 6 — 16 March 2025 storm day (concurrent shutdowns)
-# ══════════════════════════════════════════════════════════════════════════════
 def fig6_storm_day(ev):
     # Get all events on 16 March 2025
     storm = ev[
@@ -703,9 +691,7 @@ def fig6_storm_day(ev):
     savefig("Fig6_storm_day.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # FIGURE 7 — Economic impact (3-panel improved)
-# ══════════════════════════════════════════════════════════════════════════════
 def fig7_economic(ev):
     fig, axes = plt.subplots(1, 3, figsize=(14, 5))
 
@@ -782,9 +768,7 @@ def fig7_economic(ev):
     savefig("Fig7_economic_impact.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # FIGURE 8 — Model performance (4-panel)
-# ══════════════════════════════════════════════════════════════════════════════
 def fig8_model():
     from sklearn.metrics import (
         roc_curve, auc, precision_recall_curve, average_precision_score,
@@ -913,9 +897,7 @@ def fig8_model():
     savefig("Fig8_model_performance.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # MAIN
-# ══════════════════════════════════════════════════════════════════════════════
 if __name__ == "__main__":
     print("Loading event data…")
     ev = load_events()

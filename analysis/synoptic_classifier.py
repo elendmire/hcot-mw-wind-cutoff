@@ -127,14 +127,7 @@ def classify_with_era5(cutoffs: pd.DataFrame) -> pd.DataFrame:
 
 
 def classify_stub(cutoffs: pd.DataFrame) -> pd.DataFrame:
-    """
-    Stub classification based on event timing and magnitude.
-    Used when ERA5 data is not yet downloaded.
-    Assigns synthetic classes based on:
-      - Month (winter = cold fronts, spring = cyclones)
-      - Event magnitude (high drop = strong event)
-      - Spatial co-occurrence (March 16 = cyclone cluster)
-    """
+    """Heuristic fallback when ERA5 data is unavailable."""
     logger.info("Running stub synoptic classification (ERA5 not available).")
     df = cutoffs.copy()
     df["month"] = df["datetime"].dt.month
@@ -168,7 +161,6 @@ def classify_stub(cutoffs: pd.DataFrame) -> pd.DataFrame:
 
 
 def generate_class_statistics(df: pd.DataFrame) -> pd.DataFrame:
-    """Compute statistics per synoptic class."""
     stats = (
         df.groupby(["synoptic_class", "synoptic_label"])
         .agg(

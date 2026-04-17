@@ -51,10 +51,7 @@ TRAIN_END = pd.Timestamp("2023-12-31 23:00", tz="UTC")
 VAL_END   = pd.Timestamp("2024-12-31 23:00", tz="UTC")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # 1. DATA LOADING  (reused logic from v1 — no leakage here)
-# ══════════════════════════════════════════════════════════════════════════════
-
 def load_and_label(max_plants=None) -> pd.DataFrame:
     """Load wind generation master CSV, label cutoff events."""
     master = DATA_DIR / "generation_202201_202504.csv"
@@ -106,10 +103,7 @@ def load_and_label(max_plants=None) -> pd.DataFrame:
     return df
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # 2. WINDOW CONSTRUCTION  (written from scratch)
-# ══════════════════════════════════════════════════════════════════════════════
-
 def build_windows(df: pd.DataFrame, H: int, seed: int = 42) -> pd.DataFrame:
     """
     Build leakage-free prediction windows for horizon H.
@@ -199,10 +193,7 @@ def build_windows(df: pd.DataFrame, H: int, seed: int = 42) -> pd.DataFrame:
     return meta
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # 3. FEATURE EXTRACTION  (written from scratch, window-only)
-# ══════════════════════════════════════════════════════════════════════════════
-
 FEATURE_DESCRIPTIONS = {
     "gen_mean":          "Mean generation (MW) over 24h window",
     "gen_std":           "Std dev of generation over 24h window",
@@ -334,10 +325,7 @@ def build_feature_matrix(meta: pd.DataFrame, plant_rates: dict) -> pd.DataFrame:
     return pd.DataFrame(feat_rows)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # 4. TEMPORAL SPLIT
-# ══════════════════════════════════════════════════════════════════════════════
-
 def temporal_split(feat_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Split by window_end_ts (= prediction time).
@@ -361,10 +349,7 @@ def report_split_counts(H: int, train, val, test):
                            f"— treat test metrics as indicative only")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # 5. XGBOOST TRAINING
-# ══════════════════════════════════════════════════════════════════════════════
-
 FEAT_COLS = list(FEATURE_DESCRIPTIONS.keys())
 
 
@@ -465,10 +450,7 @@ def train_xgb(H: int, train: pd.DataFrame, val: pd.DataFrame, test: pd.DataFrame
     }
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # 6. SANITY CHECKS
-# ══════════════════════════════════════════════════════════════════════════════
-
 def sanity_check_windows(meta: pd.DataFrame, H: int):
     """Verify no positive window contains data within H hours of its cutoff."""
     print(f"\n  [Sanity] H={H}h window gap verification (3 examples):")
@@ -551,10 +533,7 @@ def sanity_check_temporal_bias(train: pd.DataFrame, val: pd.DataFrame, H: int):
     print(f"\n  [Sanity] H={H}h temporal-only model val AUC={auc:.3f}  {flag}")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
 # 7. MAIN
-# ══════════════════════════════════════════════════════════════════════════════
-
 def main(dry_run: bool = False, max_plants=None):
     print("\n" + "=" * 70)
     print("  LEAKAGE-FREE CUTOFF EARLY WARNING — v2")

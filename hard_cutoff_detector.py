@@ -1,14 +1,6 @@
 """
-Hard Cut-off Dedektörü
-----------------------
-Yüksek üretimden birden 0'a (veya çok düşüğe) düşen durumları tespit eder.
-
-Cut-off Kriterleri:
-- Önceki saat: YÜKSEK üretim (örn. >X MW)
-- Şu anki saat: ~0 veya ÇOK DÜŞÜK (<Y MW)
-- Bu = HARD CUT-OFF (türbin durmuş)
-
-Bu yüzdelik değil, MUTLAK değer bazlı tespit!
+Hard Cut-off Dedektörü — Yüksek üretimden ani sıfıra düşüşleri tespit eder.
+Mutlak eşik bazlı (prev >= high_threshold AND curr <= low_threshold).
 """
 
 import pandas as pd
@@ -23,7 +15,6 @@ logger = logging.getLogger(__name__)
 
 
 class HardCutoffDetector:
-    """Yüksek→0 düşen hard cut-off olaylarını tespit eder"""
     
     def __init__(self, data_dir: Optional[Path] = None):
         self.data_dir = data_dir or Path(__file__).parent / "data"
@@ -87,20 +78,10 @@ class HardCutoffDetector:
     def detect_hard_cutoffs(
         self,
         df: Optional[pd.DataFrame] = None,
-        high_threshold_mw: float = 500,   # "Yüksek" üretim eşiği
-        low_threshold_mw: float = 100,    # "Düşük" üretim eşiği (cut-off sonrası)
-        zero_threshold_mw: float = 50     # "Sıfır" kabul edilecek eşik
+        high_threshold_mw: float = 500,
+        low_threshold_mw: float = 100,
+        zero_threshold_mw: float = 50,
     ) -> pd.DataFrame:
-        """
-        HARD cut-off tespit et.
-        
-        Kriter: Önceki saat >= high_threshold VE şu an <= low_threshold
-        
-        Args:
-            high_threshold_mw: Önceki saatte en az bu kadar üretim olmalı
-            low_threshold_mw: Şu an en fazla bu kadar üretim olmalı
-            zero_threshold_mw: Bu değerin altı "sıfır" kabul edilir
-        """
         if df is None:
             df = self.df
         
@@ -141,7 +122,6 @@ class HardCutoffDetector:
         return cutoffs
     
     def generate_report(self, cutoffs: pd.DataFrame) -> str:
-        """Hard cut-off raporu"""
         report = []
         report.append("=" * 65)
         report.append("🔴 HARD CUT-OFF RAPORU (Yüksek → 0 Düşüşler)")
@@ -183,11 +163,6 @@ class HardCutoffDetector:
 
 
 def analyze_plant_cutoffs(plant_file: str = "plant_generation*.csv"):
-    """
-    Santral bazlı hard cut-off analizi.
-    
-    Her santral için ayrı ayrı yüksek→0 düşüşlerini tespit eder.
-    """
     data_dir = Path(__file__).parent / "data"
     files = list(data_dir.glob(plant_file))
     

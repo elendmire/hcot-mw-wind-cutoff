@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Threshold Sensitivity Wrapper
-Loads master CSV, normalises columns, then delegates to threshold_sensitivity.py logic.
-"""
 import itertools
 from pathlib import Path
 
